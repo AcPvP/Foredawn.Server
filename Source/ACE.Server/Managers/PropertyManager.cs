@@ -649,7 +649,9 @@ namespace ACE.Server.Managers
                 ("popup_header", new Property<string>("Welcome to Asheron's Call!", "Welcome message displayed when you log in")),
                 ("popup_welcome", new Property<string>("To begin your training, speak to the Society Greeter. Walk up to the Society Greeter using the 'W' key, then double-click on her to initiate a conversation.", "Welcome message popup in training halls")),
                 ("popup_motd", new Property<string>("", "Popup message of the day")),
-                ("server_motd", new Property<string>("", "Server message of the day"))
+                ("server_motd", new Property<string>("", "Server message of the day")),
+                ("turbine_chat_webhook", new Property<string>("", "Webhook to be used for turbine chat. This is for copying ingame general chat channels to a Discord channel.")),
+                ("turbine_chat_webhook_audit", new Property<string>("", "Webhook to be used for ingame audit log."))
                 );
     }
 }

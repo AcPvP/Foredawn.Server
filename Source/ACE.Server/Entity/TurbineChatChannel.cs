@@ -17,4 +17,18 @@ namespace ACE.Server.Entity
         public static uint SocietyEldrytchWeb   = 9;
         public static uint SocietyRadiantBlood  = 10;
     }
+
+    public enum TurbineChatChannel_Enum : uint
+    {
+        General = 1,
+        Trade = 2,
+        LFG = 3,
+        Roleplay = 4,
+        Allegiance = 5,
+        Olthoi = 6,
+        Society = 7,
+        SocietyCelestialHand = 8,
+        SocietyEldrytchWeb = 9,
+        SocietyRadiantBlood = 10
+    }
 }
