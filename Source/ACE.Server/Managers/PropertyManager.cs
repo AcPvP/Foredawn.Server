@@ -647,6 +647,14 @@ namespace ACE.Server.Managers
                 ("war_streak_spell_damage_modifier", new Property<double>(1.0, "")),
                 ("void_streak_spell_damage_modifier", new Property<double>(1.0, "")),
                 ("void_projectile_modifier", new Property<double>(1.0, "scales void projectile dmg")),
+                ("imbue_crippling_blow_melee_scalar", new Property<double>(4.0, "Scales the effectiveness of Crippling Blow for melee attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.")),
+                ("imbue_crippling_blow_magic_scalar", new Property<double>(4.0, "Scales the effectiveness of Crippling Blow for magic attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.")),
+                ("imbue_crippling_blow_missile_scalar", new Property<double>(4.0, "Scales the effectiveness of Crippling Blow for missile attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.")),
+                ("imbue_critical_strike_magic_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for magic attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
+                ("imbue_critical_strike_melee_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for melee attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
+                ("imbue_critical_strike_missile_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for missile attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
+                ("pvp_melee_weapon_damage_modifier", new Property<double>(1.0, "Scales melee weapon damage for PvP")),
+                ("pvp_missile_weapon_damage_modifier", new Property<double>(1.0, "Scales missile weapon damage for PvP")),
                 ("consumable_speed_modifier", new Property<double>(1.0, "Scales consumable animation speed. Allows players to eat or drink at a faster rate if set to a higher number."))
                 );
 

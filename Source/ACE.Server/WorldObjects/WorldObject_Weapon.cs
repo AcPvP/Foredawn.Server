@@ -600,12 +600,17 @@ namespace ACE.Server.WorldObjects
                 case ImbuedSkillType.Melee:
 
                     baseMod = Math.Max(0, baseSkill - 100) / 600.0f;
+                    baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_melee_scalar").Item;
                     break;
 
                 case ImbuedSkillType.Missile:
+                    baseMod = Math.Max(0, baseSkill - 60) / 600.0f;
+                    baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_missile_scalar").Item;
+                    break;
                 case ImbuedSkillType.Magic:
 
                     baseMod = Math.Max(0, baseSkill - 60) / 600.0f;
+                    baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_magic_scalar").Item;
                     break;
 
                 default:
@@ -669,16 +674,21 @@ namespace ACE.Server.WorldObjects
 
             var baseMod = 1.0f;
 
-            switch(GetImbuedSkillType(skill))
+            float cbmultiplier;
+            switch (GetImbuedSkillType(skill))
             {
                 case ImbuedSkillType.Melee:
-                    baseMod = Math.Max(0, baseSkill - 40) / 60.0f;
+                    cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_melee_scalar").Item;
+                    baseMod = cbmultiplier * (Math.Max(0, baseSkill - 40) / 360.0f);
                     break;
 
                 case ImbuedSkillType.Missile:
+                    cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_missile_scalar").Item;
+                    baseMod = cbmultiplier * (baseSkill / 360.0f); // old 60 = 6x, 90 = 4x
+                    break;
                 case ImbuedSkillType.Magic:
-
-                    baseMod = baseSkill / 60.0f;
+                    cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_magic_scalar").Item;
+                    baseMod = cbmultiplier * (baseSkill / 360.0f); // old 60 = 6x, 90 = 4x
                     break;
             }
 
