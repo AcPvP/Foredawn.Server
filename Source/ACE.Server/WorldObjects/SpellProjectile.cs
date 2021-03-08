@@ -470,6 +470,26 @@ namespace ACE.Server.WorldObjects
             // war/void magic projectiles
             else
             {
+                var modifier = 1.0;
+                
+                if (isPVP)
+                {
+                    if (Spell.School == MagicSchool.WarMagic)
+                    {
+                        modifier = PropertyManager.GetDouble("spell_damage_modifier").Item; // mostly unused
+
+                        if (SpellType == ProjectileSpellType.Streak)
+                            modifier = PropertyManager.GetDouble("war_streak_spell_damage_modifier").Item; // scales war streak damages
+                    }
+                    else if (Spell.School == MagicSchool.VoidMagic)
+                    {
+                        if (SpellType == ProjectileSpellType.Streak)
+                            modifier = PropertyManager.GetDouble("void_streak_spell_damage_modifier").Item;
+                        else
+                            modifier = PropertyManager.GetDouble("void_projectile_modifier").Item;
+                    }
+                }
+
                 if (criticalHit)
                 {
                     // Original:
@@ -518,6 +538,7 @@ namespace ACE.Server.WorldObjects
                     }
                 }
                 baseDamage = ThreadSafeRandom.Next(Spell.MinDamage, Spell.MaxDamage);
+                baseDamage = (int)(baseDamage * modifier);
 
                 weaponResistanceMod = GetWeaponResistanceModifier(sourceCreature, attackSkill, Spell.DamageType);
 
