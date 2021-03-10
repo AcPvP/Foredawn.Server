@@ -170,8 +170,12 @@ namespace ACE.Server.Network.Handlers
                     else
                         log.Debug($"client {loginRequest.Account} connected with non matching password so booting");
 
-                    SendConnectRequest(session);
+<<<<<<< HEAD
                     session.Terminate(SessionTerminationReason.NotAuthorizedPasswordMismatch, new GameMessageBootAccount(" because the password entered for this account was not correct"));
+=======
+                    SendConnectRequest(session);
+                    session.Terminate(SessionTerminationReason.NotAuthorizedPasswordMismatch, new GameMessageBootAccount(" because the password entered for this account was not correct."));
+>>>>>>> gmriggs/network-login-reconnect
 
                     // TO-DO: temporary lockout of account preventing brute force password discovery
                     // exponential duration of lockout for targeted account
@@ -185,12 +189,17 @@ namespace ACE.Server.Network.Handlers
 
                     if (previouslyConnectedAccount != null)
                     {
-                        // do not send connection request here, or else vials will fill up on new client,
-                        // and it won't try to repeatedly reconnect until previous char is logged out of world
+<<<<<<< HEAD
+                        // Boot the existing account
                         previouslyConnectedAccount.Terminate(SessionTerminationReason.AccountLoggedIn, new GameMessageCharacterError(CharacterError.Logon));
 
                         // We still can't let the new account in. They'll need to retry after the previous account has been successfully booted.
                         session.Terminate(SessionTerminationReason.AccountInUse, new GameMessageCharacterError(CharacterError.Logon));
+=======
+                        // do not send connection request here, or else vials will fill up on new client,
+                        // and it won't try to repeatedly reconnect until previous char is logged out of world
+                        previouslyConnectedAccount.Terminate(SessionTerminationReason.AccountLoggedIn, new GameMessageCharacterError(CharacterError.Logon));
+>>>>>>> gmriggs/network-login-reconnect
                         return;
                     }
                 }
@@ -221,8 +230,12 @@ namespace ACE.Server.Network.Handlers
                 if (now < account.BanExpireTime.Value)
                 {
                     var reason = account.BanReason;
-                    SendConnectRequest(session);
+<<<<<<< HEAD
                     session.Terminate(SessionTerminationReason.AccountBanned, new GameMessageAccountBanned(account.BanExpireTime.Value, $"{(reason != null ? $" - {reason}" : null)}"), null, reason);
+=======
+                    SendConnectRequest(session);
+                    session.Terminate(SessionTerminationReason.AccountBanned, new GameMessageBootAccount($"{(reason != null ? $" - {reason}" : null)}"), null, reason);
+>>>>>>> gmriggs/network-login-reconnect
                     return;
                 }
                 else
