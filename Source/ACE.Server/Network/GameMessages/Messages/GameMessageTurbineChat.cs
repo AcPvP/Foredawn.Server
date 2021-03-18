@@ -13,6 +13,7 @@ namespace ACE.Server.Network.GameMessages.Messages
         public ChatType ChatType { get; set; }
 
         public GameMessageTurbineChat(ChatNetworkBlobType chatNetworkBlobType, ChatNetworkBlobDispatchType chatNetworkBlobDispatchType, uint channel, string senderName, string message, uint senderID, ChatType chatType)
+            : base(GameMessageOpcode.TurbineChat, GameMessageGroup.LoginQueue)
         {
             this.Channel = channel;
             this.SenderName = senderName;
