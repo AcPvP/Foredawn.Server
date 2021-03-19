@@ -656,7 +656,8 @@ namespace ACE.Server.Managers
                 ("imbue_critical_strike_missile_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for missile attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
                 ("pvp_melee_weapon_damage_modifier", new Property<double>(1.0, "Scales melee weapon damage for PvP")),
                 ("pvp_missile_weapon_damage_modifier", new Property<double>(1.0, "Scales missile weapon damage for PvP")),
-                ("consumable_speed_modifier", new Property<double>(1.0, "Scales consumable animation speed. Allows players to eat or drink at a faster rate if set to a higher number."))
+                ("consumable_speed_modifier", new Property<double>(1.0, "Scales consumable animation speed. Allows players to eat or drink at a faster rate if set to a higher number.")),
+                ("cloak_max_proc_rate", new Property<double>(25.0, "Cap cloak proc chance to this percentage (100.0 will effectively use the standard ACE proc rate)."))
                 );
 
         public static readonly ReadOnlyDictionary<string, Property<string>> DefaultStringProperties =
