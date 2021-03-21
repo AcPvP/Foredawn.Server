@@ -657,7 +657,38 @@ namespace ACE.Server.Managers
                 ("pvp_melee_weapon_damage_modifier", new Property<double>(1.0, "Scales melee weapon damage for PvP")),
                 ("pvp_missile_weapon_damage_modifier", new Property<double>(1.0, "Scales missile weapon damage for PvP")),
                 ("consumable_speed_modifier", new Property<double>(1.0, "Scales consumable animation speed. Allows players to eat or drink at a faster rate if set to a higher number.")),
-                ("cloak_max_proc_rate", new Property<double>(25.0, "Cap cloak proc chance to this percentage (100.0 will effectively use the standard ACE proc rate)."))
+                ("cloak_max_proc_rate", new Property<double>(0.25, "Cap cloak proc chance to this percentage (1.0 will effectively use the standard ACE proc rate).")),
+
+                ("xbow_cb_crit_rate", new Property<double>(0.05, "The amount that an xbow with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+                ("bow_cb_crit_rate", new Property<double>(0.05, "The amount that a bow with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+                ("thrown_cb_crit_rate", new Property<double>(0.05, "The amount that a thrown weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+
+                // CB Multiplier Properties.
+                ("heavy_cb_damage", new Property<double>(0.50, "The extra multiplier amount that heavy weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("light_cb_damage", new Property<double>(0.50, "The extra multiplier amount that light weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("finesse_cb_damage", new Property<double>(0.50, "The extra multiplier amount that finesse weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("twohanded_cb_damage", new Property<double>(0.50, "The extra multiplier amount that twohanded weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+
+                ("xbow_cb_damage", new Property<double>(0.50, "The extra multiplier amount that xbows will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("bow_cb_damage", new Property<double>(0.50, "The extra multiplier amount that bows will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("thrown_cb_damage", new Property<double>(0.50, "The extra multiplier amount that thrown weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+
+                // CB Critical Strike Chance Modifiers
+                ("heavy_cb_crit_rate", new Property<double>(0.05, "The amount that a heavy weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+                ("light_cb_crit_rate", new Property<double>(0.05, "The amount that a light weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+                ("finesse_cb_crit_rate", new Property<double>(0.05, "The amount that a finesse weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+                ("twohanded_cb_crit_rate", new Property<double>(0.05, "The amount that a twohanded weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
+
+                // CS Critical Multiplier Properties
+                ("heavy_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("light_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("finesse_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("twohanded_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+
+                ("xbow_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("bow_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("thrown_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)"))
+
                 );
 
         public static readonly ReadOnlyDictionary<string, Property<string>> DefaultStringProperties =
