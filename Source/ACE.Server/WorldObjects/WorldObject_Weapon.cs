@@ -246,6 +246,7 @@ namespace ACE.Server.WorldObjects
 
         private const float defaultPhysicalCritFrequency = 0.1f;    // 10% base chance
 
+        
         /// <summary>
         /// Returns the critical chance for the current weapon
         /// </summary>
@@ -262,12 +263,57 @@ namespace ACE.Server.WorldObjects
                 critRate = Math.Max(critRate, criticalStrikeBonus);
             }
 
+            if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
+                critRate = CustomApplyCBWeaponCritRate(skill, weapon, critRate);
+
             if (wielder != null)
                 critRate += wielder.GetCritRating() * 0.01f;
 
             // mitigation
             var critResistRatingMod = Creature.GetNegativeRatingMod(target.GetCritResistRating());
             critRate *= critResistRatingMod;
+
+            return critRate;
+        }
+
+        private static float CustomApplyCBWeaponCritRate(CreatureSkill skill, WorldObject weapon, float critRate)
+        {
+            var skillType = GetImbuedSkillType(skill);
+
+            if (skillType == ImbuedSkillType.Melee)
+            {
+                switch (weapon.WeaponSkill)
+                {
+                    case Skill.HeavyWeapons:
+                        critRate += (float)PropertyManager.GetDouble("heavy_cb_crit_rate").Item;
+                        break;
+                    case Skill.LightWeapons:
+                        critRate += (float)PropertyManager.GetDouble("light_cb_crit_rate").Item;
+                        break;
+                    case Skill.FinesseWeapons:
+                        critRate += (float)PropertyManager.GetDouble("finesse_cb_crit_rate").Item;
+                        break;
+                    case Skill.TwoHandedCombat:
+                        critRate += (float)PropertyManager.GetDouble("twohanded_cb_crit_rate").Item;
+                        break;
+                }
+            }
+
+            if (skillType == ImbuedSkillType.Missile)
+            {
+                switch (weapon.W_WeaponType)
+                {
+                    case WeaponType.Crossbow:
+                        critRate += (float)PropertyManager.GetDouble("xbow_cb_crit_rate").Item;
+                        break;
+                    case WeaponType.Bow:
+                        critRate += (float)PropertyManager.GetDouble("bow_cb_crit_rate").Item;
+                        break;
+                    case WeaponType.Thrown:
+                        critRate += (float)PropertyManager.GetDouble("thrown_cb_crit_rate").Item;
+                        break;
+                }
+            }
 
             return critRate;
         }
@@ -331,6 +377,11 @@ namespace ACE.Server.WorldObjects
 
                 critDamageMod = Math.Max(critDamageMod, cripplingBlowMod); 
             }
+            if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
+                critDamageMod = CustomApplyCBWeaponDamage(skill, weapon, critDamageMod);
+            
+            if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CriticalStrike))
+                critDamageMod = CustomApplyCSWeaponDamage(skill, weapon, critDamageMod);
 
             if (wielder != null)
                 critDamageMod += wielder.GetCritDamageRating() * 0.01f;
@@ -338,6 +389,94 @@ namespace ACE.Server.WorldObjects
             // mitigation
             var critDamageResistRatingMod = Creature.GetNegativeRatingMod(target.GetCritDamageResistRating());
             critDamageMod *= critDamageResistRatingMod;
+
+            return critDamageMod;
+        }
+
+        private static float CustomApplyCSWeaponDamage(CreatureSkill skill, WorldObject weapon, float critDamageMod)
+        {
+            var skillType = GetImbuedSkillType(skill);
+
+            if (skillType == ImbuedSkillType.Melee)
+            {
+                switch (weapon.WeaponSkill)
+                {
+                    case Skill.HeavyWeapons:
+                        critDamageMod += (float)PropertyManager.GetDouble("heavy_cs_damage").Item;
+                        break;
+                    case Skill.LightWeapons:
+                        critDamageMod += (float)PropertyManager.GetDouble("light_cs_damage").Item;
+                        break;
+                    case Skill.FinesseWeapons:
+                        critDamageMod += (float)PropertyManager.GetDouble("finesse_cs_damage").Item;
+                        break;
+                    case Skill.TwoHandedCombat:
+                        critDamageMod += (float)PropertyManager.GetDouble("twohanded_cs_damage").Item;
+                        break;
+                }
+            }
+
+            if (skillType == ImbuedSkillType.Missile)
+            {
+                switch (weapon.W_WeaponType)
+                {
+                    case WeaponType.Crossbow:
+                        critDamageMod += (float)PropertyManager.GetDouble("xbow_cs_damage").Item;
+                        break;
+                    case WeaponType.Bow:
+                        critDamageMod += (float)PropertyManager.GetDouble("bow_cs_damage").Item;
+                        break;
+                    case WeaponType.Thrown:
+                        critDamageMod += (float)PropertyManager.GetDouble("thrown_cs_damage").Item;
+                        break;
+                }
+            }
+
+            return critDamageMod;
+        }
+
+        private static float CustomApplyCBWeaponDamage(CreatureSkill skill, WorldObject weapon, float critDamageMod)
+        {
+            var cripplingBlowMod = GetCripplingBlowMod(skill);
+
+            critDamageMod = Math.Max(critDamageMod, cripplingBlowMod);
+
+            var skillType = GetImbuedSkillType(skill);
+
+            if (skillType == ImbuedSkillType.Melee)
+            {
+                switch (weapon.WeaponSkill)
+                {
+                    case Skill.HeavyWeapons:
+                        critDamageMod += (float)PropertyManager.GetDouble("heavy_cb_damage").Item;
+                        break;
+                    case Skill.LightWeapons:
+                        critDamageMod += (float)PropertyManager.GetDouble("light_cb_damage").Item;
+                        break;
+                    case Skill.FinesseWeapons:
+                        critDamageMod += (float)PropertyManager.GetDouble("finesse_cb_damage").Item;
+                        break;
+                    case Skill.TwoHandedCombat:
+                        critDamageMod += (float)PropertyManager.GetDouble("twohanded_cb_damage").Item;
+                        break;
+                }
+            }
+
+            if (skillType == ImbuedSkillType.Missile)
+            {
+                switch (weapon.W_WeaponType)
+                {
+                    case WeaponType.Crossbow:
+                        critDamageMod += (float)PropertyManager.GetDouble("xbow_cb_damage").Item;
+                        break;
+                    case WeaponType.Bow:
+                        critDamageMod += (float)PropertyManager.GetDouble("bow_cb_damage").Item;
+                        break;
+                    case WeaponType.Thrown:
+                        critDamageMod += (float)PropertyManager.GetDouble("thrown_cb_damage").Item;
+                        break;
+                }
+            }
 
             return critDamageMod;
         }
