@@ -305,7 +305,7 @@ namespace ACE.Server.Entity
             }
 
             if (Weapon != null && Weapon.HasImbuedEffect(ImbuedEffectType.IgnoreAllArmor))
-                ArmorMod = 1.0f;
+                ArmorMod = (float)PropertyManager.GetDouble("phantom_damage_multi", 1.0, false).Item;
 
             // get resistance modifiers
             WeaponResistanceMod = WorldObject.GetWeaponResistanceModifier(attacker, attackSkill, DamageType);
