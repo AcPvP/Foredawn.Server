@@ -687,8 +687,10 @@ namespace ACE.Server.Managers
 
                 ("xbow_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
                 ("bow_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
-                ("thrown_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)"))
+                ("thrown_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
 
+                ("phantom_shield_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs shields. Default is 1.0x")),
+                ("phantom_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs armor. Default is 1.0x"))
                 );
 
         public static readonly ReadOnlyDictionary<string, Property<string>> DefaultStringProperties =
