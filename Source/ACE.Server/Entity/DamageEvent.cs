@@ -222,16 +222,8 @@ namespace ACE.Server.Entity
 
             DamageRatingMod = Creature.AdditiveCombine(DamageRatingBaseMod, RecklessnessMod, SneakAttackMod, HeritageMod);
 
-            float PvPWeaponMultiplier = 1.0f;
-            if (playerAttacker != null && playerDefender != null && Weapon != null)
-            {
-                var multi = (float?)Weapon.GetProperty(ACE.Entity.Enum.Properties.PropertyFloat.ForedawnPvpDamageMulti);
-                if (multi.HasValue)
-                    PvPWeaponMultiplier = multi.Value;
-            }
-
             // damage before mitigation
-            DamageBeforeMitigation = BaseDamage * AttributeMod * PowerMod * SlayerMod * DamageRatingMod * PvPWeaponMultiplier;
+            DamageBeforeMitigation = BaseDamage * AttributeMod * PowerMod * SlayerMod * DamageRatingMod;
 
             float pvpBalanceMulti = 1f;
             if (playerAttacker != null && playerDefender != null && Weapon?.WeaponSkill == Skill.MissileWeapons)
@@ -273,6 +265,13 @@ namespace ACE.Server.Entity
                     DamageRatingMod = Creature.AdditiveCombine(DamageRatingBaseMod, SneakAttackMod, HeritageMod);
                     DamageBeforeMitigation = BaseDamageMod.MaxDamage * AttributeMod * PowerMod * SlayerMod * DamageRatingMod * CriticalDamageMod;
                 }
+            }
+
+            if (playerAttacker != null && playerDefender != null && Weapon != null)
+            {
+                var multi = (float?)Weapon.GetProperty(ACE.Entity.Enum.Properties.PropertyFloat.ForedawnPvpDamageMulti);
+                if (multi.HasValue)
+                    DamageBeforeMitigation *= multi.Value;
             }
 
             // armor rending and cleaving
