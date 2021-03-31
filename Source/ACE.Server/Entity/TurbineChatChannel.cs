@@ -20,11 +20,11 @@ namespace ACE.Server.Entity
 
     public enum TurbineChatChannel_Enum : uint
     {
-        General = 1,
-        Trade = 2,
-        LFG = 3,
-        Roleplay = 4,
-        Allegiance = 5,
+        Allegiance = 1,
+        General = 2,
+        Trade = 3,
+        LFG = 4,
+        Roleplay = 5,
         Olthoi = 6,
         Society = 7,
         SocietyCelestialHand = 8,
