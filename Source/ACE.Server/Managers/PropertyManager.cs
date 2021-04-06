@@ -593,6 +593,8 @@ namespace ACE.Server.Managers
                 ("vendor_shop_uses_generator", new Property<bool>(false, "enables or disables vendors using generator system in addition to createlist to create artificial scarcity")),
                 ("world_closed", new Property<bool>(false, "enable this to startup world as a closed to players world")),
 
+                ("dispel_rares_pvp", new Property<bool>(false, "If true, disables rare gem buffs from being usable in PvP.")),
+
                 ("player_trace", new Property<bool>(false, "Enable this for enhanced tracing of player activity.")),
                 ("player_trace_death", new Property<bool>(true, "If player_trace is enabled, toggles logging of deaths.")),
                 ("player_trace_teleport", new Property<bool>(true, "If player_trace is enabled, toggles logging of teleportation (travel) of any kind.")),
