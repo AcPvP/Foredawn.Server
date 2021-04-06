@@ -43,6 +43,16 @@ namespace ACE.Server.WorldObjects
 
         private void AddLuminance(long amount, XpType xpType)
         {
+            if (xpType == XpType.Admin || xpType == XpType.Emote || xpType == XpType.Quest)
+            {
+                Trace(new PlayerLuminanceRewardEntry()
+                {
+                    Amount = amount,
+                    PlayerName = this.Name,
+                    XpType = xpType
+                });
+            }
+
             var available = AvailableLuminance ?? 0;
             var maximum = MaximumLuminance ?? 0;
 

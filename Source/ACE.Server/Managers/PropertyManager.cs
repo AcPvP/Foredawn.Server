@@ -591,8 +591,17 @@ namespace ACE.Server.Managers
                 ("use_wield_requirements", new Property<bool>(true, "disable this to bypass wield requirements. mostly for dev debugging")),
                 ("version_info_enabled", new Property<bool>(false, "toggles the /aceversion player command")),
                 ("vendor_shop_uses_generator", new Property<bool>(false, "enables or disables vendors using generator system in addition to createlist to create artificial scarcity")),
-                ("world_closed", new Property<bool>(false, "enable this to startup world as a closed to players world"))
-                );
+                ("world_closed", new Property<bool>(false, "enable this to startup world as a closed to players world")),
+
+                ("player_trace", new Property<bool>(false, "Enable this for enhanced tracing of player activity.")),
+                ("player_trace_death", new Property<bool>(true, "If player_trace is enabled, toggles logging of deaths.")),
+                ("player_trace_teleport", new Property<bool>(true, "If player_trace is enabled, toggles logging of teleportation (travel) of any kind.")),
+                ("player_trace_quest", new Property<bool>(true, "If player_trace is enabled, toggles logging of quest completions.")),
+                ("player_trace_xp", new Property<bool>(true, "If player_trace is enabled, toggles logging of xp rewards.")),
+                ("player_trace_lum", new Property<bool>(true, "If player_trace is enabled, toggles logging of luminance rewards.")),
+                ("player_trace_item_reward", new Property<bool>(true, "If player_trace is enabled, toggles logging of item rewards.")),
+                ("player_trace_item_give", new Property<bool>(true, "If player_trace is enabled, toggles logging of giving of items."))
+            );
 
         public static readonly ReadOnlyDictionary<string, Property<long>> DefaultLongProperties =
             DictOf(

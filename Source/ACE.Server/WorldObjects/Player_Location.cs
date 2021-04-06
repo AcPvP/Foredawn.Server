@@ -621,13 +621,21 @@ namespace ACE.Server.WorldObjects
         /// <summary>
         /// This is not thread-safe. Consider using WorldManager.ThreadSafeTeleport() instead if you're calling this from a multi-threaded subsection.
         /// </summary>
-        public void Teleport(Position _newPosition)
+        public void Teleport(Position _newPosition, TeleportType teleportType = TeleportType.Unknown)
         {
             var newPosition = new Position(_newPosition);
             //newPosition.PositionZ += 0.005f;
             newPosition.PositionZ += 0.005f * (ObjScale ?? 1.0f);
 
             //Console.WriteLine($"{Name}.Teleport() - Sending to {newPosition.ToLOCString()}");
+            Trace(new PlayerTeleportEntry()
+            {
+                FullDestination = newPosition.ToString(),
+                LandblockFrom = Location.LandblockId.Landblock.ToString("X2"),
+                LandblockTo = newPosition.LandblockId.Landblock.ToString("X2"),
+                PlayerName = this.Name,
+                TeleportType = teleportType
+            });
 
             // Check currentFogColor set for player. If LandblockManager.GlobalFogColor is set, don't bother checking, dungeons didn't clear like this on retail worlds.
             // if not clear, reset to clear before portaling in case portaling to dungeon (no current way to fast check unloaded landblock for IsDungeon or current FogColor)
