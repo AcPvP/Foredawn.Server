@@ -972,10 +972,14 @@ namespace ACE.Server.WorldObjects
                     // Retrieve enchantment on target and remove it, if present
                     if (EnchantmentManager.HasSpell(spellid))
                     {
-                        //target.EnchantmentManager.Remove(target.EnchantmentManager.GetEnchantment(spellId, item.Guid.Full));
-                        EnchantmentManager.Dispel(EnchantmentManager.GetEnchantment(spellid));
+                        var enchantment = EnchantmentManager.GetEnchantment(spellid);
+                        while (enchantment != null)
+                        {
+                            log.Info($"Dispel rared spell ID {spellid} from {this.Name} on PK flagging");
+                            EnchantmentManager.Remove(enchantment);
+                            enchantment = EnchantmentManager.GetEnchantment(spellid);
+                        }
                     }
-                    TryRemoveRareEnchantment(spellid);
                 }
             }    
         }
