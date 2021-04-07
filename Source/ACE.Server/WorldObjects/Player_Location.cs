@@ -114,7 +114,7 @@ namespace ACE.Server.WorldObjects
                     Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
                     return;
                 }
-                Teleport(house.SlumLord.Location);
+                Teleport(house.SlumLord.Location, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -182,7 +182,7 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
-                Teleport(Sanctuary);
+                Teleport(Sanctuary, TeleportType.RecallCommand);
             });
 
             lifestoneChain.EnqueueChain();
@@ -242,7 +242,7 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
-                Teleport(MarketplaceDrop);
+                Teleport(MarketplaceDrop, TeleportType.RecallCommand);
             });
 
             // Set the chain to run
@@ -312,7 +312,7 @@ namespace ACE.Server.WorldObjects
                 if (!VerifyRecallAllegianceHometown())
                     return;
 
-                Teleport(Allegiance.Sanctuary);
+                Teleport(Allegiance.Sanctuary, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -403,7 +403,7 @@ namespace ACE.Server.WorldObjects
                 if (allegianceHouse == null)
                     return;
 
-                Teleport(allegianceHouse.SlumLord.Location);
+                Teleport(allegianceHouse.SlumLord.Location, TeleportType.RecallCommand);
             }); 
 
             actionChain.EnqueueChain();
@@ -516,7 +516,7 @@ namespace ACE.Server.WorldObjects
                 var rng = ThreadSafeRandom.Next(0, pkArenaLocs.Count - 1);
                 var loc = pkArenaLocs[rng];
 
-                Teleport(loc);
+                Teleport(loc, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -594,7 +594,7 @@ namespace ACE.Server.WorldObjects
                 var rng = ThreadSafeRandom.Next(0, pklArenaLocs.Count - 1);
                 var loc = pklArenaLocs[rng];
 
-                Teleport(loc);
+                Teleport(loc, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();

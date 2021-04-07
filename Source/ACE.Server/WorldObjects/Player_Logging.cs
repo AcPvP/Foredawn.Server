@@ -94,7 +94,11 @@ namespace ACE.Server.WorldObjects
         RecallCommand,
         Death,
         Trap,
-        Other
+        Other,
+        HouseBoot,
+        Admin,
+        Gem,
+        Emote
     }
 
     public class PlayerQuestEntry : TracedEntry
