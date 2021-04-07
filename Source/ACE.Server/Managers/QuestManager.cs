@@ -175,6 +175,17 @@ namespace ACE.Server.Managers
 
             var quest = GetOrCreateQuest(questName, out var questRegistryWasCreated);
 
+            if (Creature is Player p)
+            {
+                p?.Trace(new PlayerQuestEntry()
+                {
+                    Landblock = p?.CurrentLandblock?.Id.Landblock.ToString("X2") ?? "NULL",
+                    PlayerName = p?.Name ?? "NULL",
+                    QuestName = quest?.QuestName ?? "NULL",
+                    NumTimesCompleted = quest?.NumTimesCompleted ?? 0
+                });
+            }
+
             if (questRegistryWasCreated)
             {
                 quest.LastTimeCompleted = (uint) Time.GetUnixTime();
@@ -210,14 +221,6 @@ namespace ACE.Server.Managers
                     player.CharacterChangesDetected = true;
 
                     player.ContractManager.NotifyOfQuestUpdate(quest.QuestName);
-
-                    player.Trace(new PlayerQuestEntry()
-                    {
-                        Landblock = player.CurrentLandblock.Id.Landblock.ToString("X2"),
-                        PlayerName = player.Name,
-                        QuestName = quest.QuestName,
-                        NumTimesCompleted = quest.NumTimesCompleted
-                    });
                 }
             }
         }
