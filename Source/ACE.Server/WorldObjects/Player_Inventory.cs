@@ -2491,6 +2491,17 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
+                Trace(new PlayerItemGiveEntry()
+                {
+                    GivenTo = target.Name,
+                    GivenToClient = target is Player p ? p.ClientID : $"NPC-{target.WeenieClassId}",
+                    ItemGuid = item.Guid.ToString(),
+                    ItemName = item.Name,
+                    PlayerClient = this.ClientID,
+                    PlayerName = this.Name,
+                    WeenieID = item.WeenieClassId
+                });
+
                 if (target is Player targetAsPlayer)
                     GiveObjectToPlayer(targetAsPlayer, item, itemFoundInContainer, itemRootOwner, itemWasEquipped, amount);
                 else
@@ -3039,6 +3050,17 @@ namespace ACE.Server.WorldObjects
 
                 EnqueueBroadcast(new GameMessageSound(Guid, Sound.ReceiveItem));
             }
+
+            Trace(new PlayerItemRewardEntry()
+            {
+                ItemGuid = itemBeingGiven.Guid.ToString(),
+                ItemName = itemBeingGiven.Name,
+                NPCName = giver.Name,
+                NPCWeenie = giver.WeenieClassId,
+                PlayerClient = ClientID,
+                PlayerName = Name,
+                WeenieID = itemBeingGiven.WeenieClassId
+            });
 
             if (PropertyManager.GetBool("player_receive_immediate_save").Item)
                 RushNextPlayerSave(5);

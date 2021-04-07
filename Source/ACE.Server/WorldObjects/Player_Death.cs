@@ -169,7 +169,18 @@ namespace ACE.Server.WorldObjects
 
             // killer = top damager for looting rights
             if (topDamager != null)
+            {
                 KillerId = topDamager.Guid.Full;
+
+                Trace(new PlayerDeathEntry()
+                {
+                    GuidKilledBy = topDamager.Guid.Full,
+                    NameKilledBy = topDamager.Name,
+                    NameKilled = this.Name,
+                    Landblock = this.CurrentLandblock.Id.Landblock.ToString("X2"),
+                    TotalDeaths = this.NumDeaths
+                });
+            }
 
             // broadcast death animation
             var deathAnim = new Motion(MotionStance.NonCombat, MotionCommand.Dead);

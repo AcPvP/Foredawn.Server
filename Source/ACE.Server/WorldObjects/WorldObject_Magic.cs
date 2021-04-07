@@ -901,7 +901,7 @@ namespace ACE.Server.WorldObjects
                                     var teleportDest = new Position(portal.Destination);
                                     WorldObject.AdjustDungeon(teleportDest);
 
-                                    targetPlayer.Teleport(teleportDest);
+                                    targetPlayer.Teleport(teleportDest, TeleportType.RecallCast);
                                 });
                                 portalRecall.EnqueueChain();
                             }
@@ -926,7 +926,7 @@ namespace ACE.Server.WorldObjects
                                 var teleportDest = new Position(spell.Position);
                                 WorldObject.AdjustDungeon(teleportDest);
 
-                                targetPlayer.Teleport(teleportDest);
+                                targetPlayer.Teleport(teleportDest, TeleportType.RecallCast);
 
                                 targetPlayer.SendTeleportedViaMagicMessage(itemCaster, spell);
                             });
@@ -961,7 +961,7 @@ namespace ACE.Server.WorldObjects
                                     var teleportDest = new Position(spell.Position);
                                     WorldObject.AdjustDungeon(teleportDest);
 
-                                    targetPlayer.Teleport(teleportDest);
+                                    targetPlayer.Teleport(teleportDest, TeleportType.RecallCast);
 
                                     targetPlayer.SendTeleportedViaMagicMessage(itemCaster, spell);
                                 });

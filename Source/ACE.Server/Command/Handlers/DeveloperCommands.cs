@@ -1579,7 +1579,7 @@ namespace ACE.Server.Command.Handlers
 
             newPos.SetPosition(newPos.Pos + offset);
 
-            session.Player.Teleport(newPos);
+            session.Player.Teleport(newPos, TeleportType.Admin);
 
             var globLastSpawnPos = lastSpawnPos.ToGlobal();
             var globNewPos = newPos.ToGlobal();
@@ -2105,7 +2105,7 @@ namespace ACE.Server.Command.Handlers
                 var pos = new Position(dest.ObjCellId, dest.OriginX, dest.OriginY, dest.OriginZ, dest.AnglesX, dest.AnglesY, dest.AnglesZ, dest.AnglesW);
                 WorldObject.AdjustDungeon(pos);
 
-                session.Player.Teleport(pos);
+                session.Player.Teleport(pos, TeleportType.Admin);
             }
         }
 
@@ -2139,7 +2139,7 @@ namespace ACE.Server.Command.Handlers
                 var pos = new Position(dest.ObjCellId, dest.OriginX, dest.OriginY, dest.OriginZ, dest.AnglesX, dest.AnglesY, dest.AnglesZ, dest.AnglesW);
                 WorldObject.AdjustDungeon(pos);
 
-                session.Player.Teleport(pos);
+                session.Player.Teleport(pos, TeleportType.Admin);
             }
         }
 

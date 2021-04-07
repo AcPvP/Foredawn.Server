@@ -255,7 +255,7 @@ namespace ACE.Server.WorldObjects
                 EmoteManager.OnPortal(player);
 
                 player.SendWeenieError(WeenieError.ITeleported);
-            }));
+            }), TeleportType.Gem);
         }
     }
 }

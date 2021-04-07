@@ -210,6 +210,14 @@ namespace ACE.Server.Managers
                     player.CharacterChangesDetected = true;
 
                     player.ContractManager.NotifyOfQuestUpdate(quest.QuestName);
+
+                    player.Trace(new PlayerQuestEntry()
+                    {
+                        Landblock = player.CurrentLandblock.Id.Landblock.ToString("X2"),
+                        PlayerName = player.Name,
+                        QuestName = quest.QuestName,
+                        NumTimesCompleted = quest.NumTimesCompleted
+                    });
                 }
             }
         }

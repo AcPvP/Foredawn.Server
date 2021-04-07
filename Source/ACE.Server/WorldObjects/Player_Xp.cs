@@ -49,6 +49,19 @@ namespace ACE.Server.WorldObjects
         /// <param name="shareable">If TRUE, this XP can be shared with fellowship members</param>
         public void GrantXP(long amount, XpType xpType, ShareType shareType = ShareType.All)
         {
+            if (!shareType.HasFlag(ShareType.Fellowship))
+            {
+                if (xpType == XpType.Admin || xpType == XpType.Emote || xpType == XpType.Quest)
+                {
+                    Trace(new PlayerXPRewardEntry()
+                    {
+                        Amount = amount,
+                        PlayerName = this.Name,
+                        XpType = xpType
+                    });
+                }
+            }
+
             if (Fellowship != null && Fellowship.ShareXP && shareType.HasFlag(ShareType.Fellowship))
             {
                 // this will divy up the XP, and re-call this function

@@ -114,7 +114,7 @@ namespace ACE.Server.WorldObjects
                     Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
                     return;
                 }
-                Teleport(house.SlumLord.Location);
+                Teleport(house.SlumLord.Location, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -182,7 +182,7 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
-                Teleport(Sanctuary);
+                Teleport(Sanctuary, TeleportType.RecallCommand);
             });
 
             lifestoneChain.EnqueueChain();
@@ -242,7 +242,7 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
-                Teleport(MarketplaceDrop);
+                Teleport(MarketplaceDrop, TeleportType.RecallCommand);
             });
 
             // Set the chain to run
@@ -312,7 +312,7 @@ namespace ACE.Server.WorldObjects
                 if (!VerifyRecallAllegianceHometown())
                     return;
 
-                Teleport(Allegiance.Sanctuary);
+                Teleport(Allegiance.Sanctuary, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -403,7 +403,7 @@ namespace ACE.Server.WorldObjects
                 if (allegianceHouse == null)
                     return;
 
-                Teleport(allegianceHouse.SlumLord.Location);
+                Teleport(allegianceHouse.SlumLord.Location, TeleportType.RecallCommand);
             }); 
 
             actionChain.EnqueueChain();
@@ -516,7 +516,7 @@ namespace ACE.Server.WorldObjects
                 var rng = ThreadSafeRandom.Next(0, pkArenaLocs.Count - 1);
                 var loc = pkArenaLocs[rng];
 
-                Teleport(loc);
+                Teleport(loc, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -594,7 +594,7 @@ namespace ACE.Server.WorldObjects
                 var rng = ThreadSafeRandom.Next(0, pklArenaLocs.Count - 1);
                 var loc = pklArenaLocs[rng];
 
-                Teleport(loc);
+                Teleport(loc, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -621,13 +621,21 @@ namespace ACE.Server.WorldObjects
         /// <summary>
         /// This is not thread-safe. Consider using WorldManager.ThreadSafeTeleport() instead if you're calling this from a multi-threaded subsection.
         /// </summary>
-        public void Teleport(Position _newPosition)
+        public void Teleport(Position _newPosition, TeleportType teleportType = TeleportType.Unknown)
         {
             var newPosition = new Position(_newPosition);
             //newPosition.PositionZ += 0.005f;
             newPosition.PositionZ += 0.005f * (ObjScale ?? 1.0f);
 
             //Console.WriteLine($"{Name}.Teleport() - Sending to {newPosition.ToLOCString()}");
+            Trace(new PlayerTeleportEntry()
+            {
+                FullDestination = newPosition.ToString(),
+                LandblockFrom = Location.LandblockId.Landblock.ToString("X2"),
+                LandblockTo = newPosition.LandblockId.Landblock.ToString("X2"),
+                PlayerName = this.Name,
+                TeleportType = teleportType
+            });
 
             // Check currentFogColor set for player. If LandblockManager.GlobalFogColor is set, don't bother checking, dungeons didn't clear like this on retail worlds.
             // if not clear, reset to clear before portaling in case portaling to dungeon (no current way to fast check unloaded landblock for IsDungeon or current FogColor)
