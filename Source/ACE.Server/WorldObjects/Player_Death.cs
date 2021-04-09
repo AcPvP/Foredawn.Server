@@ -177,7 +177,7 @@ namespace ACE.Server.WorldObjects
                     GuidKilledBy = topDamager.Guid.Full,
                     NameKilledBy = topDamager.Name,
                     NameKilled = this.Name,
-                    Landblock = this.CurrentLandblock.Id.Landblock.ToString("X2"),
+                    Landblock = this.CurrentLandblock?.Id.Landblock.ToString("X2") ?? "NULL",
                     TotalDeaths = this.NumDeaths
                 });
             }
