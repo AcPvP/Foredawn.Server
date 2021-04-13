@@ -1254,7 +1254,8 @@ namespace ACE.Server.WorldObjects
 
         public void TryBurnComponents(Spell spell)
         {
-            if (SafeSpellComponents) return;
+            if (SafeSpellComponents || PropertyManager.GetBool("safe_spell_comps").Item)
+                return;
 
             var burned = spell.TryBurnComponents(this);
             if (burned.Count == 0) return;
