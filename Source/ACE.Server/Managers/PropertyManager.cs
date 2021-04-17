@@ -661,9 +661,9 @@ namespace ACE.Server.Managers
                 ("war_streak_spell_damage_modifier", new Property<double>(1.0, "")),
                 ("void_streak_spell_damage_modifier", new Property<double>(1.0, "")),
                 ("void_projectile_modifier", new Property<double>(1.0, "scales void projectile dmg")),
-                ("imbue_crippling_blow_melee_scalar", new Property<double>(4.0, "Scales the effectiveness of Crippling Blow for melee attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.")),
-                ("imbue_crippling_blow_magic_scalar", new Property<double>(4.0, "Scales the effectiveness of Crippling Blow for magic attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.")),
-                ("imbue_crippling_blow_missile_scalar", new Property<double>(4.0, "Scales the effectiveness of Crippling Blow for missile attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.")),
+                ("imbue_crippling_blow_melee_scalar", new Property<double>(6.0, "Scales the effectiveness of Crippling Blow for melee attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc. ACE DEFAULT IS 6.0")),
+                ("imbue_crippling_blow_magic_scalar", new Property<double>(6.0, "Scales the effectiveness of Crippling Blow for magic attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.  ACE DEFAULT IS 6.0")),
+                ("imbue_crippling_blow_missile_scalar", new Property<double>(6.0, "Scales the effectiveness of Crippling Blow for missile attacks at roughly max base skill. 1.0 = no effect. 2.0 = double damage on crit at max base skill. 4.0 = 4x damage etc.  ACE DEFAULT IS 6.0")),
                 ("imbue_critical_strike_magic_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for magic attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
                 ("imbue_critical_strike_melee_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for melee attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
                 ("imbue_critical_strike_missile_scalar", new Property<double>(1.0, "Scales the effectiveness of Critical Strike Imbue for missile attacks at roughly max base skill. 1.0 = default effect. 2.0 = Crit chance double of what the player normally would have with a CS weapon")),
@@ -677,14 +677,14 @@ namespace ACE.Server.Managers
                 ("thrown_cb_crit_rate", new Property<double>(0.05, "The amount that a thrown weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
 
                 // CB Multiplier Properties.
-                ("heavy_cb_damage", new Property<double>(0.50, "The extra multiplier amount that heavy weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
-                ("light_cb_damage", new Property<double>(0.50, "The extra multiplier amount that light weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
-                ("finesse_cb_damage", new Property<double>(0.50, "The extra multiplier amount that finesse weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
-                ("twohanded_cb_damage", new Property<double>(0.50, "The extra multiplier amount that twohanded weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("heavy_cb_damage", new Property<double>(0, "The extra crit rating Heavy Weapons will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("light_cb_damage", new Property<double>(0, "The extra crit rating Light Weapons will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("finesse_cb_damage", new Property<double>(0, "The extra crit rating Finesse Weapons will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("twohanded_cb_damage", new Property<double>(0, "The extra crit rating Two-Handed Weapons will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
 
-                ("xbow_cb_damage", new Property<double>(0.50, "The extra multiplier amount that xbows will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
-                ("bow_cb_damage", new Property<double>(0.50, "The extra multiplier amount that bows will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
-                ("thrown_cb_damage", new Property<double>(0.50, "The extra multiplier amount that thrown weapons will get when imbued with CB. Default is 0.50(50%). default CB values are 6x maximum, this modifier can take it above that, 1.00 would be 100% increase(12x).")),
+                ("xbow_cb_damage", new Property<double>(0, "The extra crit rating Crossbow will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("bow_cb_damage", new Property<double>(0, "The extra crit rating Bow will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("thrown_cb_damage", new Property<double>(0, "The extra crit rating Thrown Weapons will get when imbued with CB. For every 1.0 added to this number, this equals 100 crit rating.")),
 
                 // CB Critical Strike Chance Modifiers
                 ("heavy_cb_crit_rate", new Property<double>(0.05, "The amount that a heavy weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
@@ -693,14 +693,23 @@ namespace ACE.Server.Managers
                 ("twohanded_cb_crit_rate", new Property<double>(0.05, "The amount that a twohanded weapon with Crippling Blow will land a critical strike. Default is 0.05(5%). A value of 1.00 would be 100% crit strike chance. be CAREFUL")),
 
                 // CS Critical Multiplier Properties
-                ("heavy_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
-                ("light_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
-                ("finesse_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
-                ("twohanded_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("heavy_cs_damage", new Property<double>(0, "The extra crit rating Heavy Weapons will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("light_cs_damage", new Property<double>(0, "The extra crit rating Light Weapons will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("finesse_cs_damage", new Property<double>(0, "The extra crit rating Finesse Weapons will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("twohanded_cs_damage", new Property<double>(0, "The extra crit rating Two-Handed Weapons will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
 
-                ("xbow_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
-                ("bow_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
-                ("thrown_cs_damage", new Property<double>(0.5, "The amount of extra crit damage multiplier that missile weapons imbued with CS will get. Default is 0.5(50%)")),
+                ("xbow_cs_damage", new Property<double>(0, "The extra crit rating Crossbow will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("bow_cs_damage", new Property<double>(0, "The extra crit rating Bow will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
+                ("thrown_cs_damage", new Property<double>(0, "The extra crit rating Thrown Weapons will get when imbued with CS. For every 1.0 added to this number, this equals 100 crit rating.")),
+
+                ("heavy_weapons_damage", new Property<double>(0, "The amount of flat damage added to heavy weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
+                ("light_weapons_damage", new Property<double>(0, "The amount of flat damage added to light weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
+                ("finesse_weapons_damage", new Property<double>(0, "The amount of flat damage added to finesse weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
+                ("twohanded_damage", new Property<double>(0, "The amount of flat damage added to twohanded weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
+
+                ("xbow_damage", new Property<double>(0, "The amount of flat damage added to light weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
+                ("bow_damage", new Property<double>(0, "The amount of flat damage added to finesse weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
+                ("thrown_damage", new Property<double>(0, "The amount of flat damage added to twohanded weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
 
                 ("phantom_shield_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs shields. Default is 1.0x")),
                 ("phantom_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs armor. Default is 1.0x"))
