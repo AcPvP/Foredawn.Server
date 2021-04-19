@@ -505,6 +505,19 @@ namespace ACE.Server.WorldObjects
                 }
                 return false;
             }
+            else if (!forceImmediate)
+            {
+                Session.Network.EnqueueSend(new GameMessageSystemChat("Logging out in 5s...", ChatMessageType.Magic));
+
+                if (!PKLogout)
+                {
+                    PKLogout = true;
+
+                    LogoffTimestamp = Time.GetFutureUnixTime(5);
+                    PlayerManager.AddPlayerToLogoffQueue(this);
+                }
+                return false;
+            }
 
             LogOut_Inner(clientSessionTerminatedAbruptly);
 
