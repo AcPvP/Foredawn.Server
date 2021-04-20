@@ -342,7 +342,7 @@ namespace ACE.Server.WorldObjects
                         else if (weapon.WeaponSkill == Skill.TwoHandedCombat)
                             maxdam = (int)PropertyManager.GetDouble("twohanded_damage").Item;
                         maxdam *= weapon.NumTimesTinkered;
-                        damageBonus = maxdam >= 1 ? ThreadSafeRandom.Next(1, maxdam) : 0;
+                        damageBonus = maxdam / 2;
                     }
 
                     var damageEvent = DamageTarget(creature, weapon, damageBonus);

@@ -51,7 +51,7 @@ namespace ACE.Server.WorldObjects
                         else if (weapon.W_WeaponType == WeaponType.Thrown)
                             maxdmg += (int)PropertyManager.GetDouble("thrown_damage").Item;
                         maxdmg *= weapon.NumTimesTinkered;
-                        var dmgrng = maxdmg >= 1 ? ThreadSafeRandom.Next(1, maxdmg) : 0;
+                        var dmgrng = maxdmg / 2;
                         worldObject.Damage += dmgrng;
                     }
 
