@@ -1622,8 +1622,12 @@ namespace ACE.Server.WorldObjects
                 return WeenieError.None;
 
             var allowedWielder = item.GetProperty(PropertyInstanceId.AllowedWielder);
+
             if (allowedWielder != null && (allowedWielder != Guid.Full))
-                return WeenieError.YouDoNotOwnThatItem; // Unsure of the exact message
+            {
+                if (item.GetProperty(PropertyBool.ForedawnAmethystApplied) != true)
+                    return WeenieError.YouDoNotOwnThatItem; // Unsure of the exact message
+            }
 
             var result = CheckWieldRequirement(item.WieldRequirements, item.WieldSkillType, item.WieldDifficulty);
             if (result != WeenieError.None)

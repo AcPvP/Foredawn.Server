@@ -138,21 +138,21 @@ namespace ACE.Server.Entity
             40301,  // Verdant Moar
         };
 
-        public static DamageEvent CalculateDamage(Creature attacker, Creature defender, WorldObject damageSource, MotionCommand? attackMotion = null)
+        public static DamageEvent CalculateDamage(Creature attacker, Creature defender, WorldObject damageSource, MotionCommand? attackMotion = null, int damageBonus = 0)
         {
             var damageEvent = new DamageEvent();
             damageEvent.AttackMotion = attackMotion;
             if (damageSource == null)
                 damageSource = attacker;
 
-            var damage = damageEvent.DoCalculateDamage(attacker, defender, damageSource);
+            var damage = damageEvent.DoCalculateDamage(attacker, defender, damageSource, damageBonus);
 
             damageEvent.HandleLogging(attacker, defender);
 
             return damageEvent;
         }
 
-        private float DoCalculateDamage(Creature attacker, Creature defender, WorldObject damageSource)
+        private float DoCalculateDamage(Creature attacker, Creature defender, WorldObject damageSource, int damageBonus = 0)
         {
             var playerAttacker = attacker as Player;
             var playerDefender = defender as Player;
@@ -197,7 +197,7 @@ namespace ACE.Server.Entity
 
             // get base damage
             if (playerAttacker != null)
-                GetBaseDamage(playerAttacker);
+                GetBaseDamage(playerAttacker, damageBonus);
             else
                 GetBaseDamage(attacker, AttackMotion ?? MotionCommand.Invalid);
 
@@ -371,7 +371,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// Returns the base damage for a player attacker
         /// </summary>
-        public void GetBaseDamage(Player attacker)
+        public void GetBaseDamage(Player attacker, int damageBonus = 0)
         {
             if (DamageSource.ItemType == ItemType.MissileWeapon)
             {
@@ -391,6 +391,7 @@ namespace ACE.Server.Entity
 
             // TODO: combat maneuvers for player?
             BaseDamageMod = attacker.GetBaseDamageMod(DamageSource);
+            BaseDamageMod.DamageBonus += damageBonus;
 
             // some quest bows can have built-in damage bonus
             if (Weapon?.WeenieType == WeenieType.MissileLauncher)

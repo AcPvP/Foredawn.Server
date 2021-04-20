@@ -2402,10 +2402,18 @@ namespace ACE.Server.Command.Handlers
             if (target != null && target is Player player)
             {
                 if (player.Session != null)
+                {
+                    CommandHandlerHelper.WriteOutputInfo(session, $"Debug: Session exists");
+                    CommandHandlerHelper.WriteOutputInfo(session, $"Debug: logOffRequestTime is {player.Session.logOffRequestTime.ToLongTimeString()}");
                     player.Session.LogOffPlayer(true);
+                }
                 else
+                {
+                    CommandHandlerHelper.WriteOutputInfo(session, $"Debug: Session not found for player");
                     player.LogOut();
+                }
 
+                CommandHandlerHelper.WriteOutputInfo(session, $"Debug: Player LogoffTimestamp: {player.LogoffTimestamp}");
                 PlayerManager.BroadcastToAuditChannel(session?.Player, $"Forcing Log Off of {player.Name}...");
             }
             else

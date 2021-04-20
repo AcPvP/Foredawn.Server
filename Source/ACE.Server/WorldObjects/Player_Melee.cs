@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using ACE.Common;
 using ACE.Entity.Enum;
 using ACE.Server.Entity;
 using ACE.Server.Entity.Actions;
@@ -329,7 +329,23 @@ namespace ACE.Server.WorldObjects
                         return;
                     }
 
-                    var damageEvent = DamageTarget(creature, weapon);
+                    int damageBonus = 0;
+                    if (weapon != null && weapon.NumTimesTinkered > 0)
+                    {
+                        int maxdam = 0;
+                        if (weapon.WeaponSkill == Skill.HeavyWeapons)
+                            maxdam = (int)PropertyManager.GetDouble("heavy_weapons_damage").Item;
+                        else if (weapon.WeaponSkill == Skill.LightWeapons)
+                            maxdam = (int)PropertyManager.GetDouble("light_weapons_damage").Item;
+                        else if (weapon.WeaponSkill == Skill.FinesseWeapons)
+                            maxdam = (int)PropertyManager.GetDouble("finesse_weapons_damage").Item;
+                        else if (weapon.WeaponSkill == Skill.TwoHandedCombat)
+                            maxdam = (int)PropertyManager.GetDouble("twohanded_damage").Item;
+                        maxdam *= weapon.NumTimesTinkered;
+                        damageBonus = maxdam >= 1 ? ThreadSafeRandom.Next(1, maxdam) : 0;
+                    }
+
+                    var damageEvent = DamageTarget(creature, weapon, damageBonus);
 
                     // handle target procs
                     if (damageEvent != null && damageEvent.HasDamage && !targetProc)
