@@ -2368,6 +2368,39 @@ namespace ACE.Server.Command.Handlers
             }
         }
 
+        // May actually kill the player or break the macro, don't do this unless confirming whether a player is breaking code of conduct
+        [CommandHandler("detectmeta", AccessLevel.Admin, CommandHandlerFlag.RequiresWorld, "")]
+        public static void HandleDetectMeta(Session session, params string[] parameters)
+        {
+            var playerName = "";
+            if (parameters.Length > 0)
+                playerName = string.Join(" ", parameters);
+
+            if (!string.IsNullOrEmpty(playerName))
+            {
+                var plr = PlayerManager.FindByName(playerName);
+                if (plr != null)
+                {
+                    var target = PlayerManager.GetOnlinePlayer(plr.Guid);
+
+                    if (target == null)
+                    {
+                        CommandHandlerHelper.WriteOutputInfo(session, $"Unable to process {plr.Name}: Player is not online.");
+                        return;
+                    }
+
+                    var msgNumDeaths = new GameMessagePrivateUpdatePropertyInt(target, PropertyInt.NumDeaths, target.NumDeaths);
+                    target.Session.Network.EnqueueSend(msgNumDeaths);
+                    CommandHandlerHelper.WriteOutputInfo(session, $"Death packet sent to client {plr.Name}. A meta will likely portal recall away. If a macro stops completely, then StopMacroOnDeath was not disabled for the person.");
+                }
+                else
+                {
+                    CommandHandlerHelper.WriteOutputInfo(session, $"Unable to process {playerName}: Player not found in manager.");
+                    return;
+                }
+            }
+        }
+
         [CommandHandler("forcelogoff", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld, "Force log off of specified character or last appraised character")]
         public static void HandleForceLogoff(Session session, params string[] parameters)
         {
