@@ -438,7 +438,7 @@ namespace ACE.Server.WorldObjects
             bool isPVP = sourcePlayer != null && targetPlayer != null;
 
             //http://acpedia.org/wiki/Announcements_-_2014/01_-_Forces_of_Nature - Aegis is 72% effective in PvP
-            if (isPVP)
+            if (isPVP && (target.CombatMode == CombatMode.Melee || target.CombatMode == CombatMode.Missile))
             {
                 absorbMod = 1 - absorbMod;
                 absorbMod *= 0.72f;
