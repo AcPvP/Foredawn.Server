@@ -61,9 +61,12 @@ namespace ACE.Server.WorldObjects
                     var targetPlayer = targetCreature as Player;
                     if (targetPlayer != null)
                     {
-                        var damageCap = PropertyManager.GetLong("pvp_damage_cap").Item;
-                        if (damageEvent.Damage > damageCap)
-                            damageEvent.Damage = damageCap;
+                        if (damageEvent != null && damageEvent.HasDamage)
+                        {
+                            var damageCap = PropertyManager.GetLong("pvp_damage_cap").Item;
+                            if (damageEvent.Damage > damageCap)
+                                damageEvent.Damage = damageCap;
+                        }
                     }
 
                     if (damageEvent != null && damageEvent.HasDamage)
