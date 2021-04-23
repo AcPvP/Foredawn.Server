@@ -337,6 +337,13 @@ namespace ACE.Server.Entity
             Damage = DamageBeforeMitigation * ArmorMod * ShieldMod * ResistanceMod * DamageResistanceRatingMod;
             DamageMitigated = DamageBeforeMitigation - Damage;
 
+            if (playerDefender != null && playerAttacker != null)
+            {
+                var damageCap = PropertyManager.GetLong("pvp_damage_cap").Item;
+                if (Damage > damageCap)
+                    Damage = damageCap;
+            }
+
             return Damage;
         }
 
