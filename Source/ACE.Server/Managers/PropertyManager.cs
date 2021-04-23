@@ -713,7 +713,9 @@ namespace ACE.Server.Managers
                 ("thrown_damage", new Property<double>(0, "The amount of flat damage added to twohanded weapons per tink. Note for each damage event the added damage will be randomized between 1 and this value. Default is 0.")),
 
                 ("phantom_shield_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs shields. Default is 1.0x")),
-                ("phantom_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs armor. Default is 1.0x"))
+                ("phantom_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs armor. Default is 1.0x")),
+
+                ("logoff_timer", new Property<double>(5.0, "The mandatory logoff timer (not flagged for pvp, measured in seconds).")),
                 );
 
         public static readonly ReadOnlyDictionary<string, Property<string>> DefaultStringProperties =

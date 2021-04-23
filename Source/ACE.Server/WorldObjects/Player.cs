@@ -509,11 +509,12 @@ namespace ACE.Server.WorldObjects
             {
                 Session.Network.EnqueueSend(new GameMessageSystemChat("Logging out in 5s...", ChatMessageType.Magic));
 
+                var logoffTimer = PropertyManager.GetDouble("logoff_timer", 0.0).Item;
                 if (!PKLogout)
                 {
                     PKLogout = true;
 
-                    LogoffTimestamp = Time.GetFutureUnixTime(5);
+                    LogoffTimestamp = Time.GetFutureUnixTime(logoffTimer);
                     PlayerManager.AddPlayerToLogoffQueue(this);
                 }
                 return false;
