@@ -715,7 +715,7 @@ namespace ACE.Server.Managers
                 ("phantom_shield_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs shields. Default is 1.0x")),
                 ("phantom_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs armor. Default is 1.0x")),
 
-                ("logoff_timer", new Property<double>(5.0, "The mandatory logoff timer (not flagged for pvp, measured in seconds).")),
+                ("logoff_timer", new Property<double>(5.0, "The mandatory logoff timer (not flagged for pvp, measured in seconds)."))
                 );
 
         public static readonly ReadOnlyDictionary<string, Property<string>> DefaultStringProperties =
