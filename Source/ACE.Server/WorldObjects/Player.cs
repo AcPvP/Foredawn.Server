@@ -507,9 +507,10 @@ namespace ACE.Server.WorldObjects
             }
             else if (!forceImmediate)
             {
+                var logoffTimer = PropertyManager.GetDouble("logoff_timer", 0.0).Item;
+                logoffTimer = Math.Round(logoffTimer, 1);
                 Session.Network.EnqueueSend(new GameMessageSystemChat("Logging out in 5s...", ChatMessageType.Magic));
 
-                var logoffTimer = PropertyManager.GetDouble("logoff_timer", 0.0).Item;
                 if (!PKLogout)
                 {
                     PKLogout = true;
