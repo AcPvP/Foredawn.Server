@@ -260,6 +260,7 @@ namespace ACE.Server.Network.Handlers
 
         public static async Task SendWebhookedChat(string sender, string message, string webhookUrl = null, uint? channelId = null)
         {
+            message = message.Replace("@", "");
             if (channelId != null)
             {
                 if (!System.Enum.TryParse<TurbineChatChannel_Enum>(channelId.ToString(), out var channelEnum))
