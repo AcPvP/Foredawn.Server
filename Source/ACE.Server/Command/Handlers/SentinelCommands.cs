@@ -181,12 +181,17 @@ namespace ACE.Server.Command.Handlers
         }
 
         // buff [name]
-        [CommandHandler("buff", AccessLevel.Sentinel, CommandHandlerFlag.RequiresWorld, 0,
+        [CommandHandler("buff", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0,
             "Buffs you (or a player) with all beneficial spells.",
             "[name] [maxLevel]\n"
             + "This command buffs yourself (or the specified character).")]
         public static void HandleBuff(Session session, params string[] parameters)
         {
+            if (session.AccessLevel < AccessLevel.Sentinel)
+            {
+                if (!PropertyManager.GetBool("dev_enable_all_buff_command").Item)
+                    return;
+            }
             List<CommandParameterHelpers.ACECommandParameter> aceParams = new List<CommandParameterHelpers.ACECommandParameter>()
             {
                 new CommandParameterHelpers.ACECommandParameter() {
