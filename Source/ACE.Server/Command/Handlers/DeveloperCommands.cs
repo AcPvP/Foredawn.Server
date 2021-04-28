@@ -3554,5 +3554,54 @@ namespace ACE.Server.Command.Handlers
                 }
             }
         }
+
+        [CommandHandler("checkvpn", AccessLevel.Admin, CommandHandlerFlag.RequiresWorld, 1, "Check if character is using a VPN.", "<character name>")]
+        public static void HandleCheckVPN(Session session, params string[] parameters)
+        {
+            if (parameters?.Length > 0)
+            {
+                List<CommandParameterHelpers.ACECommandParameter> aceParams = new List<CommandParameterHelpers.ACECommandParameter>()
+                {
+                    new CommandParameterHelpers.ACECommandParameter() {
+                        Type = CommandParameterHelpers.ACECommandParameterType.OnlinePlayerName,
+                        Required = true,
+                        ErrorMessage = "You must specify the character name."
+                    }
+                };
+                if (CommandParameterHelpers.ResolveACEParameters(session, parameters, aceParams))
+                {
+                    try
+                    {
+                        var ip = aceParams[0].AsPlayer?.Session?.EndPoint?.Address;
+                        if (ip != null)
+                        {
+                            Task.Run(async () => {
+                                var messageType = ChatMessageType.System;
+
+                                var info = await VPNDetection.CheckVPN(ip.ToString());
+                                if (info == null)
+                                {
+                                    session.Network.EnqueueSend(new GameMessageSystemChat("Request to get ISP info timed out.", messageType));
+                                    return;
+                                }
+                                
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"ASN: {info.ASN}", messageType));
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"City: {info.City}", messageType));
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"Continent: {info.Continent}", messageType));
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"Country: {info.Country}", messageType));
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"Provider: {info.Provider}", messageType));
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"Proxy: {info.Proxy}", messageType));
+                                session.Network.EnqueueSend(new GameMessageSystemChat($"Type: {info.Type}", messageType));
+                            });
+                        }
+                        return;
+                    }
+                    catch
+                    {
+                        //overflow
+                    }
+                }
+            }
+        }
     }
 }
