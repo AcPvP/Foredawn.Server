@@ -452,6 +452,12 @@ namespace ACE.Server.WorldObjects
 
             // Possible 2x + damage bonus for the slayer property
             var slayerMod = GetWeaponCreatureSlayerModifier(sourceCreature, target);
+            if (isPVP && slayerMod > 1f && Spell.School != MagicSchool.LifeMagic)
+            {
+                var spellType = GetProjectileSpellType(Spell.Id);
+                if (spellType == ProjectileSpellType.Ring || spellType == ProjectileSpellType.Wall)
+                    slayerMod = 1f;
+            }
 
             // life magic projectiles: ie., martyr's hecatomb
             if (Spell.MetaSpellType == ACE.Entity.Enum.SpellType.LifeProjectile)

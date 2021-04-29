@@ -603,7 +603,9 @@ namespace ACE.Server.Managers
                 ("player_trace_xp", new Property<bool>(true, "If player_trace is enabled, toggles logging of xp rewards.")),
                 ("player_trace_lum", new Property<bool>(true, "If player_trace is enabled, toggles logging of luminance rewards.")),
                 ("player_trace_item_reward", new Property<bool>(true, "If player_trace is enabled, toggles logging of item rewards.")),
-                ("player_trace_item_give", new Property<bool>(true, "If player_trace is enabled, toggles logging of giving of items."))
+                ("player_trace_item_give", new Property<bool>(true, "If player_trace is enabled, toggles logging of giving of items.")),
+
+                ("dev_enable_all_buff_command", new Property<bool>(false, "If true, any player may use /buff command."))
             );
 
         public static readonly ReadOnlyDictionary<string, Property<long>> DefaultLongProperties =

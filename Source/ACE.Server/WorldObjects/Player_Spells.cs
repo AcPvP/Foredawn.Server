@@ -181,7 +181,11 @@ namespace ACE.Server.WorldObjects
 
         public void CreateSentinelBuffPlayers(IEnumerable<Player> players, bool self = false, ulong maxLevel = 8)
         {
-            if (!(Session.AccessLevel >= AccessLevel.Sentinel)) return;
+            if (Session.AccessLevel < AccessLevel.Sentinel)
+            {
+                if (!PropertyManager.GetBool("dev_enable_all_buff_command").Item)
+                    return;
+            }
 
             var SelfOrOther = self ? "Self" : "Other";
 
