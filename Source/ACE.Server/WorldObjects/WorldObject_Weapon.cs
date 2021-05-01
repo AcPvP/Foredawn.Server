@@ -256,10 +256,10 @@ namespace ACE.Server.WorldObjects
 
             var critRate = (float)(weapon?.CriticalFrequency ?? defaultPhysicalCritFrequency);
 
+            var isPvP = wielder is Player && target is Player;
             if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CriticalStrike))
             {
-                var criticalStrikeBonus = GetCriticalStrikeMod(skill);
-
+                var criticalStrikeBonus = GetCriticalStrikeMod(skill, isPvP);
                 critRate = Math.Max(critRate, criticalStrikeBonus);
             }
 
@@ -374,17 +374,19 @@ namespace ACE.Server.WorldObjects
 
             var critDamageMod = (float)(weapon?.GetProperty(PropertyFloat.CriticalMultiplier) ?? defaultCritDamageMultiplier);
 
+            bool isPvP = wielder is Player && target is Player;
+
             if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
             {
-                var cripplingBlowMod = GetCripplingBlowMod(skill);
+                var cripplingBlowMod = GetCripplingBlowMod(skill, isPvP);
 
                 critDamageMod = Math.Max(critDamageMod, cripplingBlowMod); 
             }
 
-            if (wielder is Player && target is Player)
+            if (isPvP)
             {
                 if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
-                    critDamageMod = CustomApplyCBWeaponDamage(skill, weapon, critDamageMod);
+                    critDamageMod = CustomApplyCBWeaponDamage(skill, weapon, critDamageMod, isPvP);
 
                 if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CriticalStrike))
                     critDamageMod = CustomApplyCSWeaponDamage(skill, weapon, critDamageMod);
@@ -442,9 +444,9 @@ namespace ACE.Server.WorldObjects
             return critDamageMod;
         }
 
-        private static float CustomApplyCBWeaponDamage(CreatureSkill skill, WorldObject weapon, float critDamageMod)
+        private static float CustomApplyCBWeaponDamage(CreatureSkill skill, WorldObject weapon, float critDamageMod, bool isPvP)
         {
-            var cripplingBlowMod = GetCripplingBlowMod(skill);
+            var cripplingBlowMod = GetCripplingBlowMod(skill, isPvP);
 
             critDamageMod = Math.Max(critDamageMod, cripplingBlowMod);
 
@@ -747,17 +749,20 @@ namespace ACE.Server.WorldObjects
                 case ImbuedSkillType.Melee:
 
                     baseMod = Math.Max(0, baseSkill - 100) / 600.0f;
-                    baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_melee_scalar").Item;
+                    if (isPvP)
+                        baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_melee_scalar").Item;
                     break;
 
                 case ImbuedSkillType.Missile:
                     baseMod = Math.Max(0, baseSkill - 60) / 600.0f;
-                    baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_missile_scalar").Item;
+                    if (isPvP)
+                        baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_missile_scalar").Item;
                     break;
                 case ImbuedSkillType.Magic:
 
                     baseMod = Math.Max(0, baseSkill - 60) / 600.0f;
-                    baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_magic_scalar").Item;
+                    if (isPvP)
+                        baseMod *= (float)PropertyManager.GetDouble("imbue_critical_strike_magic_scalar").Item;
                     break;
 
                 default:
@@ -804,7 +809,7 @@ namespace ACE.Server.WorldObjects
 
         public static float MaxCripplingBlowMod = 6.0f;
 
-        public static float GetCripplingBlowMod(CreatureSkill skill)
+        public static float GetCripplingBlowMod(CreatureSkill skill, bool isPvP)
         {
             // increases the critical damage multiplier, additive
 
@@ -821,20 +826,23 @@ namespace ACE.Server.WorldObjects
 
             var baseMod = 1.0f;
 
-            float cbmultiplier;
+            float cbmultiplier = 6.0f;
             switch (GetImbuedSkillType(skill))
             {
                 case ImbuedSkillType.Melee:
-                    cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_melee_scalar").Item;
+                    if (isPvP)
+                        cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_melee_scalar").Item;
                     baseMod = cbmultiplier * (Math.Max(0, baseSkill - 40) / 360.0f);
                     break;
 
                 case ImbuedSkillType.Missile:
-                    cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_missile_scalar").Item;
+                    if (isPvP)
+                        cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_missile_scalar").Item;
                     baseMod = cbmultiplier * (baseSkill / 360.0f); // old 60 = 6x, 90 = 4x
                     break;
                 case ImbuedSkillType.Magic:
-                    cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_magic_scalar").Item;
+                    if (isPvP)
+                        cbmultiplier = (float)Server.Managers.PropertyManager.GetDouble("imbue_crippling_blow_magic_scalar").Item;
                     baseMod = cbmultiplier * (baseSkill / 360.0f); // old 60 = 6x, 90 = 4x
                     break;
             }
