@@ -195,7 +195,7 @@ namespace ACE.Server.WorldObjects
                 playerDamager.EarnXP((long)Math.Round(totalXP), XpType.Kill);
 
                 // handle luminance
-                if (LuminanceAward != null)
+                if (LuminanceAward != null && CurrentLandblock?.IsDungeon == false)
                 {
                     var totalLuminance = (long)Math.Round(LuminanceAward.Value * damagePercent);
                     playerDamager.EarnLuminance(totalLuminance, XpType.Kill);
