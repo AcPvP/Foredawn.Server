@@ -263,8 +263,11 @@ namespace ACE.Server.WorldObjects
                 critRate = Math.Max(critRate, criticalStrikeBonus);
             }
 
-            if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
-                critRate = CustomApplyCBWeaponCritRate(skill, weapon, critRate);
+            if (wielder is Player && target is Player)
+            {
+                if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
+                    critRate = CustomApplyCBWeaponCritRate(skill, weapon, critRate);
+            }
 
             if (wielder != null)
                 critRate += wielder.GetCritRating() * 0.01f;
@@ -377,11 +380,15 @@ namespace ACE.Server.WorldObjects
 
                 critDamageMod = Math.Max(critDamageMod, cripplingBlowMod); 
             }
-            if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
-                critDamageMod = CustomApplyCBWeaponDamage(skill, weapon, critDamageMod);
-            
-            if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CriticalStrike))
-                critDamageMod = CustomApplyCSWeaponDamage(skill, weapon, critDamageMod);
+
+            if (wielder is Player && target is Player)
+            {
+                if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
+                    critDamageMod = CustomApplyCBWeaponDamage(skill, weapon, critDamageMod);
+
+                if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CriticalStrike))
+                    critDamageMod = CustomApplyCSWeaponDamage(skill, weapon, critDamageMod);
+            }
 
             if (wielder != null)
                 critDamageMod += wielder.GetCritDamageRating() * 0.01f;

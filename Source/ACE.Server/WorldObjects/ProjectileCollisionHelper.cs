@@ -40,7 +40,7 @@ namespace ACE.Server.WorldObjects
                 {
                     var weapon = sourcePlayer.GetEquippedMissileWeapon();
 
-                    if (weapon != null && weapon.NumTimesTinkered > 0)
+                    if (weapon != null && weapon.NumTimesTinkered > 0 && target is Player)
                     {
                         var maxdmg = 0;
 
