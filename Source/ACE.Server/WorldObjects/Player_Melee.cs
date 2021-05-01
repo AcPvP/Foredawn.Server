@@ -330,7 +330,7 @@ namespace ACE.Server.WorldObjects
                     }
 
                     int damageBonus = 0;
-                    if (weapon != null && weapon.NumTimesTinkered > 0)
+                    if (weapon != null && weapon.NumTimesTinkered > 0 && target is Player)
                     {
                         int maxdam = 0;
                         if (weapon.WeaponSkill == Skill.HeavyWeapons)
