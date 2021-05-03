@@ -195,10 +195,13 @@ namespace ACE.Server.WorldObjects
                 playerDamager.EarnXP((long)Math.Round(totalXP), XpType.Kill);
 
                 // handle luminance
-                if (LuminanceAward != null && CurrentLandblock?.IsDungeon == false)
+                if (CurrentLandblock != null)//CurrentLandblock should never be null here but better to be safe
                 {
-                    var totalLuminance = (long)Math.Round(LuminanceAward.Value * damagePercent);
-                    playerDamager.EarnLuminance(totalLuminance, XpType.Kill);
+                    if (LuminanceAward != null && !CurrentLandblock.HasDungeon && !Location.Indoors)
+                    { 
+                        var totalLuminance = (long)Math.Round(LuminanceAward.Value * damagePercent);
+                        playerDamager.EarnLuminance(totalLuminance, XpType.Kill);
+                    }
                 }
             }
         }
