@@ -884,15 +884,25 @@ namespace ACE.Server.WorldObjects
 
         public static float MaxArmorRendingMod = 0.6f;
 
-        public static float GetArmorRendingMod(CreatureSkill skill)
+        public static float GetArmorRendingMod(CreatureSkill skill, bool isPvP)
         {
+            var skill1 = GetImbuedSkillType(skill);
             // % of armor ignored, min 0%, max 60%
 
+
             var baseSkill = GetBaseSkillImbued(skill);
+            float armorRendingMod;
+            
+            if (!isPvP)
+                armorRendingMod = 1.0f;
+            else if (skill1 == ImbuedSkillType.Melee)
+                armorRendingMod = 1.6f - (float)PropertyManager.GetDouble("pvp_ar_melee_cap").Item;
+            else if (skill1 == ImbuedSkillType.Missile)
+                armorRendingMod = 1.6f - (float)PropertyManager.GetDouble("pvp_ar_missile_cap").Item;
+            else //not possible?
+                armorRendingMod = 1.0f;
 
-            var armorRendingMod = 1.0f;
-
-            switch (GetImbuedSkillType(skill))
+            switch (skill1)
             {
                 case ImbuedSkillType.Melee:
                     armorRendingMod -= Math.Max(0, baseSkill - 160) / 400.0f;
@@ -903,6 +913,7 @@ namespace ACE.Server.WorldObjects
                     break;
             }
 
+            armorRendingMod = Math.Clamp(armorRendingMod, 0f, 1f);
             //Console.WriteLine($"ArmorRendingMod: {armorRendingMod}");
 
             return armorRendingMod;
