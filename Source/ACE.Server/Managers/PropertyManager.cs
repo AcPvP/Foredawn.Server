@@ -717,6 +717,9 @@ namespace ACE.Server.Managers
                 ("phantom_shield_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs shields. Default is 1.0x")),
                 ("phantom_damage_multi", new Property<double>(1.0, "The damage multiplier done by phantom weapons vs armor. Default is 1.0x")),
 
+                ("pvp_ar_melee_cap", new Property<double>(0.6, "The cap on what proportion of armor can be reduced on melee AR. Should be between 0 and 1. Default is 0.6 for a 60% reduction in armor.")),
+                ("pvp_ar_missile_cap", new Property<double>(0.6, "The cap on what proportion of armor can be reduced on missile AR. Should be between 0 and 1. Default is 0.6 for a 60% reduction in armor.")),
+
                 ("logoff_timer", new Property<double>(5.0, "The mandatory logoff timer (not flagged for pvp, measured in seconds)."))
                 );
 
