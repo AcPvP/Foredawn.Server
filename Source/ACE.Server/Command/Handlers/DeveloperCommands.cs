@@ -767,6 +767,40 @@ namespace ACE.Server.Command.Handlers
         }
 
         /// <summary>
+        /// Add a specific title to a person
+        /// </summary>
+        [CommandHandler("granttitle", AccessLevel.Admin, CommandHandlerFlag.RequiresWorld, 2, "Adds title to a character other than yourself", "[charname], [titleid]")]
+        public static void HandleGrantTitle(Session session, params string[] parameters)
+        {
+            if (parameters?.Length > 1)
+            {
+                List<CommandParameterHelpers.ACECommandParameter> aceParams = new List<CommandParameterHelpers.ACECommandParameter>()
+                {
+                    new CommandParameterHelpers.ACECommandParameter() {
+                        Type = CommandParameterHelpers.ACECommandParameterType.OnlinePlayerName,
+                        Required = true,
+                        ErrorMessage = "You must specify the character name."
+                    },
+                    new CommandParameterHelpers.ACECommandParameter()
+                    {
+                        Type = CommandParameterHelpers.ACECommandParameterType.ULong,
+                        Required = true,
+                        ErrorMessage = "You must specify the title ID"
+                    }
+                };
+                if (CommandParameterHelpers.ResolveACEParameters(session, parameters, aceParams))
+                {
+                    var target = aceParams[0].AsPlayer?.Session;
+                    var titleId = (uint)aceParams[1].AsULong;
+                    
+                    if (target != null)
+                        target.Player.AddTitle(titleId);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// Add all titles to yourself
         /// </summary>
         [CommandHandler("addalltitles", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld, "Add all titles to yourself")]
