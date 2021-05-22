@@ -1347,5 +1347,8 @@ namespace ACE.Server.Entity
             else
                 SendEnvironSound(environChangeType);
         }
+
+        static ushort[] lumWhitelistedLandblocks = new ushort[] { 0x76E9 };
+        public bool IsLumWhitelisted => lumWhitelistedLandblocks.Contains(this.Id.Landblock);
     }
 }
