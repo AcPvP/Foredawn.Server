@@ -1348,7 +1348,10 @@ namespace ACE.Server.Entity
                 SendEnvironSound(environChangeType);
         }
 
-        static ushort[] lumWhitelistedLandblocks = new ushort[] { 0x76E9 };
+        static ushort[] lumWhitelistedLandblocks = new ushort[] {
+            0x76E9, //Gurog Hole
+            0x8C03, //Mhoire Castle (when it ever gets added to the game)
+        };
         public bool IsLumWhitelisted => lumWhitelistedLandblocks.Contains(this.Id.Landblock);
     }
 }
