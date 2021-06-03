@@ -194,6 +194,8 @@ namespace ACE.Server.WorldObjects
 
             MagicState = new MagicState(this);
 
+            FoodState = new FoodState(this);
+
             RecordCast = new RecordCast(this);
 
             AttackQueue = new AttackQueue(this);
