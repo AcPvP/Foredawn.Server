@@ -286,7 +286,6 @@ namespace ACE.Server.WorldObjects
 
                 player.SendWeenieError(WeenieError.ITeleported);
             }), TeleportType.Gem);
-            }), true);
         }
     }
 }

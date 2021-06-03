@@ -35,7 +35,7 @@ namespace ACE.Server.Network.GameAction.Actions
             position.AdjustMapCoords();
 
             ChatPacket.SendServerMessage(session, $"Teleporting to: ({position.GetMapCoordStr()})", ChatMessageType.Broadcast);
-            session.Player.Teleport(position, WorldObjects.TeleportType.Admin);
+            session.Player.Teleport(position, false, WorldObjects.TeleportType.Admin);
         }
     }
 }

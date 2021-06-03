@@ -144,7 +144,7 @@ namespace ACE.Server.Entity
             40301,  // Verdant Moar
         };
 
-        public static DamageEvent CalculateDamage(Creature attacker, Creature defender, WorldObject damageSource, MotionCommand? attackMotion = null, int damageBonus = 0)
+        public static DamageEvent CalculateDamage(Creature attacker, Creature defender, WorldObject damageSource, MotionCommand? attackMotion = null, AttackHook attackHook = null, int damageBonus = 0)
         {
             var damageEvent = new DamageEvent();
             damageEvent.AttackMotion = attackMotion;

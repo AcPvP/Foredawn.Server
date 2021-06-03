@@ -1341,7 +1341,7 @@ namespace ACE.Server.WorldObjects
             }
 
             // play script?
-            player.Teleport(house.BootSpot.Location, TeleportType.HouseBoot);
+            player.Teleport(house.BootSpot.Location, false, TeleportType.HouseBoot);
 
             owner = allegianceHouse ? "the allegiance" : "your";
             Session.Network.EnqueueSend(new GameMessageSystemChat($"Booted {player.Name} from {owner} house.", ChatMessageType.Broadcast));
@@ -1391,14 +1391,14 @@ namespace ACE.Server.WorldObjects
                 {
                     if (!rootHouse.IsOpen || (rootHouse.HouseType != HouseType.Apartment && CurrentLandblock.HasDungeon))
                     {
-                        Teleport(rootHouse.BootSpot.Location, TeleportType.HouseBoot);
+                        Teleport(rootHouse.BootSpot.Location, false, TeleportType.HouseBoot);
                         return true;
                     }
                 }
 
                 //if (rootHouse.HouseOwner == null && rootHouse.HouseType != HouseType.Apartment && CurrentLandblock.HasDungeon)
                 //{
-                    Teleport(rootHouse.BootSpot.Location, TeleportType.HouseBoot);
+                    Teleport(rootHouse.BootSpot.Location, false, TeleportType.HouseBoot);
                 //    return true;
                 //}
             }

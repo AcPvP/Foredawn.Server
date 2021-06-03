@@ -131,7 +131,7 @@ namespace ACE.Server.WorldObjects
                 return null;
             }
 
-            var damageEvent = DamageEvent.CalculateDamage(this, target, damageSource, null, damageBonus);
+            var damageEvent = DamageEvent.CalculateDamage(this, target, damageSource, null, null, damageBonus);
 
             if (damageEvent.HasDamage)
             {

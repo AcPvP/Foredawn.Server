@@ -786,7 +786,7 @@ namespace ACE.Server.Command.Handlers
             var player = PlayerManager.GetOnlinePlayer(playerName);
             // If the player is found, teleport the admin to the Player's location
             if (player != null)
-                session.Player.Teleport(player.Location, TeleportType.Admin);
+                session.Player.Teleport(player.Location, false, TeleportType.Admin);
             else
                 session.Network.EnqueueSend(new GameMessageSystemChat($"Player {playerName} was not found.", ChatMessageType.Broadcast));
         }
@@ -805,7 +805,7 @@ namespace ACE.Server.Command.Handlers
                 return;
             }
             var currentPos = new Position(player.Location);
-            player.Teleport(session.Player.Location, TeleportType.Admin);
+            player.Teleport(session.Player.Location, false, TeleportType.Admin);
             player.SetPosition(PositionType.TeleportedCharacter, currentPos);
             player.Session.Network.EnqueueSend(new GameMessageSystemChat($"{session.Player.Name} has teleported you.", ChatMessageType.Magic));
 
@@ -832,7 +832,7 @@ namespace ACE.Server.Command.Handlers
                 return;
             }
 
-            player.Teleport(new Position(player.TeleportedCharacter), TeleportType.Admin);
+            player.Teleport(new Position(player.TeleportedCharacter), false, TeleportType.Admin);
             player.SetPosition(PositionType.TeleportedCharacter, null);
             player.Session.Network.EnqueueSend(new GameMessageSystemChat($"{session.Player.Name} has returned you to your previous location.", ChatMessageType.Magic));
 
@@ -860,7 +860,7 @@ namespace ACE.Server.Command.Handlers
 
                 player.SetPosition(PositionType.TeleportedCharacter, new Position(player.Location));
 
-                player.Teleport(new Position(destinationPlayer.Location), TeleportType.Admin);
+                player.Teleport(new Position(destinationPlayer.Location), false, TeleportType.Admin);
             }
 
             PlayerManager.BroadcastToAuditChannel(session.Player, $"{session.Player.Name} has teleported all online players to their location.");
@@ -940,7 +940,7 @@ namespace ACE.Server.Command.Handlers
                     positionData[i] = position;
                 }
 
-                session.Player.Teleport(new Position(cell, positionData[0], positionData[1], positionData[2], positionData[4], positionData[5], positionData[6], positionData[3]), TeleportType.Admin);
+                session.Player.Teleport(new Position(cell, positionData[0], positionData[1], positionData[2], positionData[4], positionData[5], positionData[6], positionData[3]), false, TeleportType.Admin);
             }
             catch (Exception)
             {
