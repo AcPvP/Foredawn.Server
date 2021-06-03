@@ -1349,6 +1349,7 @@ namespace ACE.Server.Entity
         }
 
         static ushort[] lumWhitelistedLandblocks = new ushort[] {
+            0x0174, //Potato Sanctuary
             0x76E9, //Gurog Hole
             0x8C03, //Mhoire Castle (when it ever gets added to the game)
         };
