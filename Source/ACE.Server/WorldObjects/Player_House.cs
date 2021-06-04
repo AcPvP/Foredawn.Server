@@ -1398,7 +1398,7 @@ namespace ACE.Server.WorldObjects
 
                 //if (rootHouse.HouseOwner == null && rootHouse.HouseType != HouseType.Apartment && CurrentLandblock.HasDungeon)
                 //{
-                    Teleport(rootHouse.BootSpot.Location, false, TeleportType.HouseBoot);
+                //    Teleport(rootHouse.BootSpot.Location, false, TeleportType.HouseBoot);
                 //    return true;
                 //}
             }
