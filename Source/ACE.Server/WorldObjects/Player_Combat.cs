@@ -131,7 +131,7 @@ namespace ACE.Server.WorldObjects
                 return null;
             }
 
-            var damageEvent = DamageEvent.CalculateDamage(this, target, damageSource, null, damageBonus);
+            var damageEvent = DamageEvent.CalculateDamage(this, target, damageSource, null, null, damageBonus);
 
             if (damageEvent.HasDamage)
             {
@@ -768,6 +768,8 @@ namespace ACE.Server.WorldObjects
 
             if (CombatMode == CombatMode.Magic && MagicState.IsCasting)
                 FailCast();
+
+            HandleActionCancelAttack();
 
             float animTime = 0.0f, queueTime = 0.0f;
 

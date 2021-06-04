@@ -98,9 +98,8 @@ namespace ACE.Server.Network.Structure
                         PropertiesBool.Add(PropertyBool.AppraisalHasAllowedWielder, true);
             }
 
-            if (PropertiesIID.ContainsKey(PropertyInstanceId.AllowedActivator))
-                if (!PropertiesBool.ContainsKey(PropertyBool.AppraisalHasAllowedActivator))
-                    PropertiesBool.Add(PropertyBool.AppraisalHasAllowedActivator, true);
+            if (PropertiesIID.ContainsKey(PropertyInstanceId.AllowedActivator) && !PropertiesBool.ContainsKey(PropertyBool.AppraisalHasAllowedActivator))
+                PropertiesBool.Add(PropertyBool.AppraisalHasAllowedActivator, true);
 
             if (PropertiesString.ContainsKey(PropertyString.ScribeAccount) && !examiner.IsAdmin && !examiner.IsSentinel && !examiner.IsEnvoy && !examiner.IsArch && !examiner.IsPsr)
                 PropertiesString.Remove(PropertyString.ScribeAccount);
@@ -110,6 +109,20 @@ namespace ACE.Server.Network.Structure
 
             if (PropertiesInt.ContainsKey(PropertyInt.Lifespan))
                 PropertiesInt[PropertyInt.RemainingLifespan] = wo.GetRemainingLifespan();
+
+            if (PropertiesInt.TryGetValue(PropertyInt.Faction1Bits, out var faction1Bits))
+            {
+                // hide any non-default factions, prevent client from displaying ???
+                // this is only needed for non-standard faction creatures that use templates, to hide the ??? in the client
+                var sendBits = faction1Bits & (int)FactionBits.ValidFactions;
+                if (sendBits != faction1Bits)
+                {
+                    if (sendBits != 0)
+                        PropertiesInt[PropertyInt.Faction1Bits] = sendBits;
+                    else
+                        PropertiesInt.Remove(PropertyInt.Faction1Bits);
+                }
+            }
 
             // armor / clothing / shield
             if (wo is Clothing || wo.IsShield)

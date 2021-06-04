@@ -382,7 +382,6 @@ namespace ACE.Server.WorldObjects
 
                 critDamageMod = Math.Max(critDamageMod, cripplingBlowMod); 
             }
-
             if (isPvP)
             {
                 if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CripplingBlow))
@@ -391,13 +390,6 @@ namespace ACE.Server.WorldObjects
                 if (weapon != null && weapon.HasImbuedEffect(ImbuedEffectType.CriticalStrike))
                     critDamageMod = CustomApplyCSWeaponDamage(skill, weapon, critDamageMod);
             }
-
-            if (wielder != null)
-                critDamageMod += wielder.GetCritDamageRating() * 0.01f;
-
-            // mitigation
-            var critDamageResistRatingMod = Creature.GetNegativeRatingMod(target.GetCritDamageResistRating());
-            critDamageMod *= critDamageResistRatingMod;
 
             return critDamageMod;
         }

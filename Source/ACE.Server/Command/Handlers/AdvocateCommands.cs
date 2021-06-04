@@ -196,7 +196,7 @@ namespace ACE.Server.Command.Handlers
                 $"{aceParams[1].AsPosition.PositionY}, {aceParams[1].AsPosition.PositionZ} | Facing: {aceParams[1].AsPosition.RotationX}, {aceParams[1].AsPosition.RotationY}, " +
                 $"{ aceParams[1].AsPosition.RotationZ}, {aceParams[1].AsPosition.RotationW}]", ChatMessageType.Broadcast);
 
-            aceParams[0].AsPlayer.Teleport(aceParams[1].AsPosition, TeleportType.Admin);
+            aceParams[0].AsPlayer.Teleport(aceParams[1].AsPosition, false, TeleportType.Admin);
         }
     }
 }

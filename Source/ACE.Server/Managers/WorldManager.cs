@@ -288,7 +288,7 @@ namespace ACE.Server.Managers
         {
             EnqueueAction(new ActionEventDelegate(() =>
             {
-                player.Teleport(newPosition, teleportType);
+                player.Teleport(newPosition, false, teleportType);
 
                 if (actionToFollowUpWith != null)
                     EnqueueAction(actionToFollowUpWith);

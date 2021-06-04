@@ -114,7 +114,7 @@ namespace ACE.Server.WorldObjects
                     Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
                     return;
                 }
-                Teleport(house.SlumLord.Location, TeleportType.RecallCommand);
+                Teleport(house.SlumLord.Location, false, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -182,7 +182,7 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
-                Teleport(Sanctuary, TeleportType.RecallCommand);
+                Teleport(Sanctuary, false, TeleportType.RecallCommand);
             });
 
             lifestoneChain.EnqueueChain();
@@ -242,7 +242,7 @@ namespace ACE.Server.WorldObjects
                     return;
                 }
 
-                Teleport(MarketplaceDrop, TeleportType.RecallCommand);
+                Teleport(MarketplaceDrop, false, TeleportType.RecallCommand);
             });
 
             // Set the chain to run
@@ -312,7 +312,7 @@ namespace ACE.Server.WorldObjects
                 if (!VerifyRecallAllegianceHometown())
                     return;
 
-                Teleport(Allegiance.Sanctuary, TeleportType.RecallCommand);
+                Teleport(Allegiance.Sanctuary, false, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -403,7 +403,7 @@ namespace ACE.Server.WorldObjects
                 if (allegianceHouse == null)
                     return;
 
-                Teleport(allegianceHouse.SlumLord.Location, TeleportType.RecallCommand);
+                Teleport(allegianceHouse.SlumLord.Location, false, TeleportType.RecallCommand);
             }); 
 
             actionChain.EnqueueChain();
@@ -516,7 +516,7 @@ namespace ACE.Server.WorldObjects
                 var rng = ThreadSafeRandom.Next(0, pkArenaLocs.Count - 1);
                 var loc = pkArenaLocs[rng];
 
-                Teleport(loc, TeleportType.RecallCommand);
+                Teleport(loc, false, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -594,7 +594,7 @@ namespace ACE.Server.WorldObjects
                 var rng = ThreadSafeRandom.Next(0, pklArenaLocs.Count - 1);
                 var loc = pklArenaLocs[rng];
 
-                Teleport(loc, TeleportType.RecallCommand);
+                Teleport(loc, false, TeleportType.RecallCommand);
             });
 
             actionChain.EnqueueChain();
@@ -621,7 +621,7 @@ namespace ACE.Server.WorldObjects
         /// <summary>
         /// This is not thread-safe. Consider using WorldManager.ThreadSafeTeleport() instead if you're calling this from a multi-threaded subsection.
         /// </summary>
-        public void Teleport(Position _newPosition, TeleportType teleportType = TeleportType.Unknown)
+        public void Teleport(Position _newPosition, bool fromPortal = false, TeleportType teleportType = TeleportType.Unknown)
         {
             var newPosition = new Position(_newPosition);
             //newPosition.PositionZ += 0.005f;
@@ -657,6 +657,9 @@ namespace ACE.Server.WorldObjects
             Teleporting = true;
             LastTeleportTime = DateTime.UtcNow;
             LastTeleportStartTimestamp = Time.GetUnixTime();
+
+            if (fromPortal)
+                LastPortalTeleportTimestamp = LastTeleportStartTimestamp;
 
             Session.Network.EnqueueSend(new GameMessagePlayerTeleport(this));
 
@@ -707,6 +710,11 @@ namespace ACE.Server.WorldObjects
                 EnqueueBroadcastPhysicsState();
         }
 
+        /// <summary>
+        /// Prevent message spam
+        /// </summary>
+        public double? LastPortalTeleportTimestampError;
+
         public void OnTeleportComplete()
         {
             if (CurrentLandblock != null && !CurrentLandblock.CreateWorldObjectsCompleted)
@@ -724,6 +732,7 @@ namespace ACE.Server.WorldObjects
             // this takes the player from pink bubbles -> fully materialized
             if (CloakStatus != CloakStatus.On)
                 ReportCollisions = true;
+
             IgnoreCollisions = false;
             Hidden = false;
             Teleporting = false;
@@ -732,6 +741,10 @@ namespace ACE.Server.WorldObjects
             CheckHouse();
 
             EnqueueBroadcastPhysicsState();
+
+            // hijacking this for both start/end on portal teleport
+            if (LastTeleportStartTimestamp == LastPortalTeleportTimestamp)
+                LastPortalTeleportTimestamp = Time.GetUnixTime();
         }
 
         public void SendTeleportedViaMagicMessage(WorldObject itemCaster, Spell spell)

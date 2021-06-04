@@ -197,7 +197,7 @@ namespace ACE.Server.WorldObjects
                 // handle luminance
                 if (CurrentLandblock != null && Location != null)//These should never be null here but better to be safe
                 {
-                    if (LuminanceAward != null && !CurrentLandblock.HasDungeon && !Location.Indoors)
+                    if (LuminanceAward != null && (!CurrentLandblock.HasDungeon && !Location.Indoors || CurrentLandblock.IsLumWhitelisted))
                     { 
                         var totalLuminance = (long)Math.Round(LuminanceAward.Value * damagePercent);
                         playerDamager.EarnLuminance(totalLuminance, XpType.Kill);
