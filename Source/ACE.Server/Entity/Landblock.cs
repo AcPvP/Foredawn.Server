@@ -420,8 +420,8 @@ namespace ACE.Server.Entity
                 if (currentObj is Player player)
                 {
                     log.Error($"Player {player.Name} caused crash in Landblock.TickPhysics.");
+                    player.Session.LogOffPlayer(true);
                 }
-                throw;
             }
 
             Monitor5m.Pause();
@@ -608,7 +608,7 @@ namespace ACE.Server.Entity
                 catch (Exception ex)
                 {
                     log.Error($"Player {player.Name} caused crash in Landblock.TickSingleThreadedWork");
-                    throw;
+                    player.Session.LogOffPlayer(true);
                 }
             }
             ServerPerformanceMonitor.AddToCumulativeEvent(ServerPerformanceMonitor.CumulativeEventHistoryType.Landblock_Tick_Player_Tick, stopwatch.Elapsed.TotalSeconds);
