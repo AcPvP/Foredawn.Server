@@ -152,7 +152,7 @@ namespace ACE.Server.Command.Handlers
         }
 
         // passwd oldpassword newpassword
-        [CommandHandler("passwd", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 2,
+        [CommandHandler("passwd", AccessLevel.Advocate, CommandHandlerFlag.RequiresWorld, 2,
             "Change your account password.",
             "oldpassword newpassword\n")]
         public static void HandlePasswd(Session session, params string[] parameters)
