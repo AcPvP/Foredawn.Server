@@ -401,13 +401,27 @@ namespace ACE.Server.Entity
 
             ProcessPendingWorldObjectAdditionsAndRemovals();
 
-            foreach (WorldObject wo in worldObjects.Values)
+            WorldObject currentObj = null;
+            try
             {
-                // set to TRUE if object changes landblock
-                var landblockUpdate = wo.UpdateObjectPhysics();
 
-                if (landblockUpdate)
-                    movedObjects.Add(wo);
+                foreach (WorldObject wo in worldObjects.Values)
+                {
+                    currentObj = wo;
+                    // set to TRUE if object changes landblock
+                    var landblockUpdate = wo.UpdateObjectPhysics();
+
+                    if (landblockUpdate)
+                        movedObjects.Add(wo);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (currentObj is Player player)
+                {
+                    log.Error($"Player {player.Name} caused crash in Landblock.TickPhysics.");
+                }
+                throw;
             }
 
             Monitor5m.Pause();
@@ -594,6 +608,7 @@ namespace ACE.Server.Entity
                 catch (Exception ex)
                 {
                     log.Error($"Player {player.Name} caused crash in Landblock.TickSingleThreadedWork");
+                    throw;
                 }
             }
             ServerPerformanceMonitor.AddToCumulativeEvent(ServerPerformanceMonitor.CumulativeEventHistoryType.Landblock_Tick_Player_Tick, stopwatch.Elapsed.TotalSeconds);
