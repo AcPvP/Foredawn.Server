@@ -586,7 +586,16 @@ namespace ACE.Server.Entity
 
             stopwatch.Restart();
             foreach (var player in players)
-                player.Player_Tick(currentUnixTime);
+            {
+                try
+                {
+                    player.Player_Tick(currentUnixTime);
+                }
+                catch (Exception ex)
+                {
+                    log.Error($"Player {player.Name} caused crash in Landblock.TickSingleThreadedWork");
+                }
+            }
             ServerPerformanceMonitor.AddToCumulativeEvent(ServerPerformanceMonitor.CumulativeEventHistoryType.Landblock_Tick_Player_Tick, stopwatch.Elapsed.TotalSeconds);
 
             stopwatch.Restart();
