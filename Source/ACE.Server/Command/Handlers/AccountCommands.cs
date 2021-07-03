@@ -3,6 +3,7 @@ using System.Net;
 using ACE.Database;
 using ACE.Database.Models.Auth;
 using ACE.Entity.Enum;
+using ACE.Server.Managers;
 using ACE.Server.Network;
 
 namespace ACE.Server.Command.Handlers
@@ -152,11 +153,14 @@ namespace ACE.Server.Command.Handlers
         }
 
         // passwd oldpassword newpassword
-        [CommandHandler("passwd", AccessLevel.Advocate, CommandHandlerFlag.RequiresWorld, 2,
+        [CommandHandler("passwd", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 2,
             "Change your account password.",
             "oldpassword newpassword\n")]
         public static void HandlePasswd(Session session, params string[] parameters)
         {
+            if (!PropertyManager.GetBool("command_passwd_enabled", false).Item)
+                return;
+
             if (session == null)
             {
                 CommandHandlerHelper.WriteOutputInfo(session, "This command is run from ingame client only", ChatMessageType.Broadcast);

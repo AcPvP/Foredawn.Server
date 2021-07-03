@@ -612,6 +612,7 @@ namespace ACE.Server.Managers
                 ("player_trace_item_reward", new Property<bool>(true, "If player_trace is enabled, toggles logging of item rewards.")),
                 ("player_trace_item_give", new Property<bool>(true, "If player_trace is enabled, toggles logging of giving of items.")),
 
+                ("command_passwd_enabled", new Property<bool>(true, "If true, enables the /passwd command.")),
                 ("dev_enable_all_buff_command", new Property<bool>(false, "If true, any player may use /buff command."))
             );
 
